@@ -81,3 +81,6 @@ async def test_rsi_operators(interpreter):
         79.56, 78.6, 77.04, 81.67, 82.88, 84.06, 87.44, 88.03, 85.21, 85.81, 86.73, 
         78.58, 78.71, 70.4, 72.5, 72.78, 67.78, 67.55
     ]
+    assert await interpreter.interprete("round(rsi(close, 26)[-1], 2)") == 74.3
+    assert await interpreter.interprete("round(rsi(close, 14)[-1], 2)") == 67.55
+    assert await interpreter.interprete("round(rsi(close, 26)[-1] - rsi(close, 14)[-1], 2)") == 6.74
