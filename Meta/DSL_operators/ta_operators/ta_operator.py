@@ -1,4 +1,4 @@
-# pylint: disable=R0801
+# pylint: disable=missing-class-docstring,missing-function-docstring
 #  Drakkar-Software OctoBot-Commons
 #  Copyright (c) Drakkar-Software, All rights reserved.
 #
@@ -14,16 +14,17 @@
 #
 #  You should have received a copy of the GNU Lesser General Public
 #  License along with this library.
-
-import tentacles.Meta.DSL_operators.exchange_operators.exchange_public_data_operators
-from tentacles.Meta.DSL_operators.exchange_operators.exchange_public_data_operators import (
-    OHLCVOperator,
-    create_ohlcv_operators,
-)
+import octobot_commons.dsl_interpreter.operators.call_operator as dsl_interpreter_call_operator
 
 
+TA_LIBRARY = "ta"
 
-__all__ = [
-    "OHLCVOperator",
-    "create_ohlcv_operators",
-]
+
+class TAOperator(dsl_interpreter_call_operator.CallOperator):
+
+    @staticmethod
+    def get_library() -> str:
+        """
+        Get the library of the operator.
+        """
+        return TA_LIBRARY

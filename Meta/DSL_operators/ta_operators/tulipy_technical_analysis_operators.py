@@ -19,6 +19,7 @@ import numpy as np
 
 import octobot_commons.dsl_interpreter.operators.call_operator as dsl_interpreter_call_operator
 import octobot_commons.dsl_interpreter.operator as dsl_interpreter_operator
+import tentacles.Meta.DSL_operators.ta_operators.ta_operator as ta_operator
 
 
 def _to_numpy_array(data):
@@ -32,7 +33,7 @@ def _to_numpy_array(data):
         raise ValueError(f"Unsupported data type: {type(data)}")
 
 
-class RSIOperator(dsl_interpreter_call_operator.CallOperator):
+class RSIOperator(ta_operator.TAOperator):
     @staticmethod
     def get_name() -> str:
         return "rsi"
@@ -40,11 +41,11 @@ class RSIOperator(dsl_interpreter_call_operator.CallOperator):
     def compute(self) -> dsl_interpreter_operator.ComputedOperatorParameterType:
         operands = self.get_computed_parameters()
         if len(operands) != 2:
-            raise ValueError("rsi() requires at two arguments: (data, period)")
+            raise ValueError(f"rsi() requires at two arguments: (data, period), got {len(operands)}")
         return list(tulipy.rsi(_to_numpy_array(operands[0]), period=int(operands[1])))
 
 
-class MACDOperator(dsl_interpreter_call_operator.CallOperator):
+class MACDOperator(ta_operator.TAOperator):
     @staticmethod
     def get_name() -> str:
         return "macd"
@@ -52,14 +53,14 @@ class MACDOperator(dsl_interpreter_call_operator.CallOperator):
     def compute(self) -> dsl_interpreter_operator.ComputedOperatorParameterType:
         operands = self.get_computed_parameters()
         if len(operands) != 4:
-            raise ValueError("macd() requires at three arguments: (data, short_period, long_period, signal_period)")
+            raise ValueError(f"macd() requires at three arguments: (data, short_period, long_period, signal_period), got {len(operands)}")
         macd, macd_signal, macd_hist = tulipy.macd(
             _to_numpy_array(operands[0]), short_period=int(operands[1]), long_period=int(operands[2]), signal_period=int(operands[3])
         )
         return list(macd_hist)
 
 
-class ADXOperator(dsl_interpreter_call_operator.CallOperator):
+class ADXOperator(ta_operator.TAOperator):
     @staticmethod
     def get_name() -> str:
         return "adx"
@@ -67,11 +68,11 @@ class ADXOperator(dsl_interpreter_call_operator.CallOperator):
     def compute(self) -> dsl_interpreter_operator.ComputedOperatorParameterType:
         operands = self.get_computed_parameters()
         if len(operands) != 4:
-            raise ValueError("adx() requires at four arguments: (high, low, close, period)")
+            raise ValueError(f"adx() requires at four arguments: (high, low, close, period), got {len(operands)}")
         return list(tulipy.adx(_to_numpy_array(operands[0]), _to_numpy_array(operands[1]), _to_numpy_array(operands[2]), period=int(operands[3])))
 
 
-class MAOperator(dsl_interpreter_call_operator.CallOperator):
+class MAOperator(ta_operator.TAOperator):
     @staticmethod
     def get_name() -> str:
         return "ma"
@@ -79,11 +80,11 @@ class MAOperator(dsl_interpreter_call_operator.CallOperator):
     def compute(self) -> dsl_interpreter_operator.ComputedOperatorParameterType:
         operands = self.get_computed_parameters()
         if len(operands) != 2:
-            raise ValueError("ma() requires at two arguments: (data, period)")
+            raise ValueError(f"ma() requires at two arguments: (data, period), got {len(operands)}")
         return list(tulipy.sma(_to_numpy_array(operands[0]), period=int(operands[1])))
 
 
-class EMAOperator(dsl_interpreter_call_operator.CallOperator):
+class EMAOperator(ta_operator.TAOperator):
     @staticmethod
     def get_name() -> str:
         return "ema"
@@ -91,11 +92,11 @@ class EMAOperator(dsl_interpreter_call_operator.CallOperator):
     def compute(self) -> dsl_interpreter_operator.ComputedOperatorParameterType:
         operands = self.get_computed_parameters()
         if len(operands) != 2:
-            raise ValueError("ema() requires at two arguments: (data, period)")
+            raise ValueError(f"ema() requires at two arguments: (data, period), got {len(operands)}")
         return list(tulipy.ema(_to_numpy_array(operands[0]), period=int(operands[1])))
 
 
-class VWMAOperator(dsl_interpreter_call_operator.CallOperator):
+class VWMAOperator(ta_operator.TAOperator):
     @staticmethod
     def get_name() -> str:
         return "vwma"
@@ -103,5 +104,5 @@ class VWMAOperator(dsl_interpreter_call_operator.CallOperator):
     def compute(self) -> dsl_interpreter_operator.ComputedOperatorParameterType:
         operands = self.get_computed_parameters()
         if len(operands) != 3:
-            raise ValueError("vwma() requires at three arguments: (data, volume, period)")
+            raise ValueError(f"vwma() requires at three arguments: (data, volume, period), got {len(operands)}")
         return list(tulipy.vwma(_to_numpy_array(operands[0]), _to_numpy_array(operands[1]), period=int(operands[2])))

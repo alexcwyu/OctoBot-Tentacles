@@ -16,6 +16,7 @@
 #  License along with this library.
 import ast
 import numpy as np
+import typing
 
 import octobot_commons.dsl_interpreter.operators.subscripting_operator as dsl_interpreter_subscripting_operator
 import octobot_commons.dsl_interpreter.operator as dsl_interpreter_operator
@@ -26,6 +27,34 @@ class SubscriptOperator(dsl_interpreter_subscripting_operator.SubscriptingOperat
     Base class for subscripting operators: array[index]
     Subscripting operators have three operands: the array/list, the index or slice and the context.
     """
+    def __init__(
+        self,
+        array_or_list: dsl_interpreter_operator.OperatorParameterType,
+        index_or_slice: dsl_interpreter_operator.OperatorParameterType,
+        context: dsl_interpreter_operator.OperatorParameterType,
+        **kwargs: typing.Any
+    ):
+        """
+        Initialize the subscripting operator with its array, index and context.
+        """
+        super().__init__(array_or_list, index_or_slice, context, **kwargs)
+
+    def get_computed_array_or_list_and_index_or_slice_and_context_parameters(
+        self,
+    ) -> typing.Tuple[
+        dsl_interpreter_operator.ComputedOperatorParameterType,
+        dsl_interpreter_operator.ComputedOperatorParameterType,
+        dsl_interpreter_operator.ComputedOperatorParameterType,
+    ]:
+        """
+        Get the computed array/list, index/slice and context of the subscripting operator.
+        """
+        computed_parameters = self.get_computed_parameters()
+        if len(computed_parameters) != 3:
+            raise ValueError(f"Unsupported {self.__class__.__name__}: expected three parameters, got {len(computed_parameters)}")
+        if not isinstance(computed_parameters, (list, tuple, np.ndarray)):
+            raise ValueError(f"Unsupported {self.__class__.__name__} computed parameters 1 type: {type(computed_parameters).__name__}")
+        return computed_parameters[0], computed_parameters[1], computed_parameters[2]
 
     @staticmethod
     def get_name() -> str:
@@ -36,11 +65,7 @@ class SubscriptOperator(dsl_interpreter_subscripting_operator.SubscriptingOperat
         array_or_list, index, context = self.get_computed_array_or_list_and_index_or_slice_and_context_parameters()
         if isinstance(context, ast.Load):
             return array_or_list[index]
-        if isinstance(context, ast.Del):
-            del array_or_list[index]
-            return array_or_list
         raise ValueError(f"Unsupported {self.__class__.__name__} context type: {type(context).__name__}")
-
 
 
 class SliceOperator(dsl_interpreter_subscripting_operator.SubscriptingOperator):
@@ -53,25 +78,35 @@ class SliceOperator(dsl_interpreter_subscripting_operator.SubscriptingOperator):
     def get_name() -> str:
         return ast.Slice.__name__
 
+    def get_computed_lower_and_upper_and_step_parameters(
+        self,
+    ) -> typing.Tuple[
+        dsl_interpreter_operator.ComputedOperatorParameterType,
+        dsl_interpreter_operator.ComputedOperatorParameterType,
+        dsl_interpreter_operator.ComputedOperatorParameterType,
+    ]:
+        """
+        Get the computed lower, upper and step of the slice operator.
+        """
+        computed_parameters = self.get_computed_parameters()
+        if len(computed_parameters) > 3:
+            raise ValueError(f"Unsupported {self.__class__.__name__}: expected at most three parameters, got {len(computed_parameters)}")
+        lower = int(computed_parameters[0]) if len(computed_parameters) > 0 and computed_parameters[0] is not None else None
+        upper = int(computed_parameters[1]) if len(computed_parameters) > 1 and computed_parameters[1] is not None else None
+        step = int(computed_parameters[2]) if len(computed_parameters) > 2 and computed_parameters[2] is not None else None
+        return lower, upper, step
+
     def compute(self) -> slice:
         """
         Compute and return a Python slice object.
-        """        
-        array_or_list, slice, context = self.get_computed_array_or_list_and_index_or_slice_and_context_parameters()
-
-        if not isinstance(slice, (list, tuple, np.ndarray)):
-            raise ValueError(f"Unsupported {self.__class__.__name__} slice type: {type(slice).__name__}")
-        lower = int(slice[0]) if len(slice) > 0 else None
-        upper = int(slice[1]) if len(slice) > 1 else None
-        step = int(slice[2]) if len(slice) > 2 else None
-        if isinstance(context, ast.Load):
-            if lower is not None:
-                if upper is not None:
-                    if step is not None:
-                        return array_or_list[lower:upper:step]
-                    return array_or_list[lower:upper]
-                return array_or_list[lower:]
-            if upper is not None:
-                return array_or_list[:upper]
-            return array_or_list
-        raise ValueError(f"Unsupported {self.__class__.__name__} context type: {type(context).__name__}")
+        """
+        maybe_lower, maybe_upper, maybe_step = self.get_computed_lower_and_upper_and_step_parameters()
+        if maybe_lower is not None:
+            if maybe_upper is not None:
+                if maybe_step is not None:
+                    return slice(maybe_lower, maybe_upper, maybe_step)
+                return slice(maybe_lower, maybe_upper, None)
+            return slice(maybe_lower, None, None)
+        if maybe_upper is not None:
+            return slice(None, maybe_upper, None)
+        return slice(None, None, None)

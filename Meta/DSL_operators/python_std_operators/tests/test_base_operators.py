@@ -58,6 +58,10 @@ async def test_interpreter_basic_operations(interpreter):
     assert await interpreter.interprete("1 is not 2") is True
     assert await interpreter.interprete("'1' in '123'") is True
     assert await interpreter.interprete("'4' in '123'") is False
+    assert await interpreter.interprete("1 in [1, 2, 3]") is True
+    assert await interpreter.interprete("4 in [1, 2, 3]") is False
+    assert await interpreter.interprete("1 not in [1, 2, 3]") is False
+    assert await interpreter.interprete("4 not in [1, 2, 3]") is True
 
     # variables
     assert await interpreter.interprete("pi") == math.pi
@@ -76,10 +80,14 @@ async def test_interpreter_basic_operations(interpreter):
     assert await interpreter.interprete("1 if 1 is not 2 else 2") == 1
 
     # subscripting operators
+    assert await interpreter.interprete("[1, 2, 3][:]") == [1, 2, 3]
     assert await interpreter.interprete("[1, 2, 3][0]") == 1
-    assert await interpreter.interprete("[1, 2, 3][0:1]") == [1, 2]
-    assert await interpreter.interprete("[1, 2, 3, 4, 5, 6][0:6:2]") == [0, 3, 5]
-    assert await interpreter.interprete("del [1, 2, 3, 4, 5, 6][2]") == [1, 2, 4, 6]
+    assert await interpreter.interprete("[1, 2, 3][0:2]") == [1, 2]
+    assert await interpreter.interprete("[1, 2, 3][2:]") == [3]
+    assert await interpreter.interprete("[1, 2, 3][:1]") == [1]
+    assert await interpreter.interprete("[1, 2, 3][:-1]") == [1, 2]
+    assert await interpreter.interprete("[1, 2, 3][-1]") == 3
+    assert await interpreter.interprete("[1, 2, 3, 4, 5, 6][0:6:2]") == [1, 3, 5]
 
 
 @pytest.mark.asyncio
@@ -143,14 +151,6 @@ async def test_interpreter_insupported_operations(interpreter):
         await interpreter.interprete("1 << 2")
     with pytest.raises(ValueError):
         await interpreter.interprete("1 >> 2")
-    with pytest.raises(ValueError):
-        await interpreter.interprete("1 in [1, 2, 3]")
-    with pytest.raises(ValueError):
-        await interpreter.interprete("4 in [1, 2, 3]")
-    with pytest.raises(ValueError):
-        await interpreter.interprete("1 not in [1, 2, 3]")
-    with pytest.raises(ValueError):
-        await interpreter.interprete("4 not in [1, 2, 3]")
     with pytest.raises(ValueError):
         await interpreter.interprete("my_variable")
     with pytest.raises(ValueError):
