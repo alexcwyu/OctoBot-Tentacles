@@ -15,6 +15,8 @@
 #  License along with this library.
 import pytest
 
+import numpy as np
+
 
 from tentacles.Meta.DSL_operators.exchange_operators.tests import (
     historical_prices,
@@ -24,14 +26,6 @@ from tentacles.Meta.DSL_operators.exchange_operators.tests import (
 
 
 @pytest.mark.asyncio
-async def test_rsi_operators(interpreter):
-    rsi = await interpreter.interprete("rsi(close, 14)")
-    rounded_rsi = [round(v, 2) for v in rsi]
-    assert rounded_rsi == [
-        79.56, 78.6, 77.04, 81.67, 82.88, 84.06, 87.44, 88.03, 85.21, 85.81, 86.73, 
-        78.58, 78.71, 70.4, 72.5, 72.78, 67.78, 67.55
-    ]
-    # no param, use context values: SYMBOL, TIME_FRAME: BTC/USDT, 1h
-    assert await interpreter.interprete("round(rsi(close, 26)[-1], 2)") == 74.3
-    assert await interpreter.interprete("round(rsi(close, 14)[-1], 2)") == 67.55
-    assert await interpreter.interprete("round(rsi(close, 26)[-1] - rsi(close, 14)[-1], 2)") == 6.74
+async def test_mocks(interpreter, historical_prices):
+    assert np.array_equal(await interpreter.interprete("close"), historical_prices)
+    assert await interpreter.interprete("close[-1]") == historical_prices[-1] == 92.22

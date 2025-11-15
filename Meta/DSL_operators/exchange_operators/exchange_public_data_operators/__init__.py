@@ -15,8 +15,8 @@
 #  You should have received a copy of the GNU Lesser General Public
 #  License along with this library.
 
-import tentacles.Meta.DSL_operators.exchange_operators.exchange_public_data_operators.ohlcv
-from tentacles.Meta.DSL_operators.exchange_operators.exchange_public_data_operators.ohlcv import (
+import tentacles.Meta.DSL_operators.exchange_operators.exchange_public_data_operators.ohlcv_operators
+from tentacles.Meta.DSL_operators.exchange_operators.exchange_public_data_operators.ohlcv_operators import (
     OHLCVOperator,
     create_ohlcv_operators,
 )
