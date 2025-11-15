@@ -15,9 +15,10 @@
 #  You should have received a copy of the GNU Lesser General Public
 #  License along with this library.
 import typing
+import dataclasses
 
 import octobot_commons.constants
-import octobot_commons.dsl_interpreter.operator as dsl_interpreter_operator
+import octobot_commons.dsl_interpreter as dsl_interpreter
 import octobot_trading.exchanges
 import octobot_trading.exchange_data
 import octobot_trading.api
@@ -26,9 +27,15 @@ import tentacles.Meta.DSL_operators.exchange_operators.exchange_operator as exch
 import tentacles.Meta.Keywords.scripting_library as scripting_library
 
 
+@dataclasses.dataclass
+class ExchangeChannelDependency(dsl_interpreter.InterpreterDependency):
+    exchange_manager_id: str
+    symbol: str
+    time_frame: str
+
 
 class OHLCVOperator(exchange_operator.ExchangeOperator):
-    def __init__(self, *parameters: dsl_interpreter_operator.OperatorParameterType, **kwargs: typing.Any):
+    def __init__(self, *parameters: dsl_interpreter.OperatorParameterType, **kwargs: typing.Any):
         super().__init__(*parameters, **kwargs)
         self.value: dsl_interpreter_operator.ComputedOperatorParameterType = exchange_operator.UNINITIALIZED_VALUE # type: ignore
 
@@ -47,7 +54,7 @@ class OHLCVOperator(exchange_operator.ExchangeOperator):
             )
         return None, None
 
-    def compute(self) -> dsl_interpreter_operator.ComputedOperatorParameterType:
+    def compute(self) -> dsl_interpreter.ComputedOperatorParameterType:
         if self.value is exchange_operator.UNINITIALIZED_VALUE:
             raise ValueError("{self.__class__.__name__} has not been initialized")
         return self.value
@@ -69,10 +76,22 @@ def create_ohlcv_operators(
                 input_time_frame or time_frame
         )
 
+    def _get_dependencies() -> typing.List[ExchangeChannelDependency]:
+        return [
+            ExchangeChannelDependency(
+                exchange_manager_id=octobot_trading.api.get_exchange_manager_id(exchange_manager),
+                symbol=symbol,
+                time_frame=time_frame
+            )
+        ]
+
     class _ClosePriceOperator(OHLCVOperator):
         @staticmethod
         def get_name() -> str:
             return "close"
+
+        def get_dependencies(self) -> typing.List[dsl_interpreter.InterpreterDependency]:
+            return super().get_dependencies() + _get_dependencies()
 
         async def initialize(self) -> None:
             await super().initialize()
@@ -82,6 +101,9 @@ def create_ohlcv_operators(
         @staticmethod
         def get_name() -> str:
             return "volume"
+
+        def get_dependencies(self) -> typing.List[dsl_interpreter.InterpreterDependency]:
+            return super().get_dependencies() + _get_dependencies()
 
         async def initialize(self) -> None:
             await super().initialize()
