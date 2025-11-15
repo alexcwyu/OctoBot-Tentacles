@@ -20,12 +20,15 @@ import numpy as np
 
 from tentacles.Meta.DSL_operators.exchange_operators.tests import (
     historical_prices,
+    historical_volume,
     exchange_manager_with_candles,
     interpreter,
 )
 
 
 @pytest.mark.asyncio
-async def test_mocks(interpreter, historical_prices):
+async def test_mocks(interpreter, historical_prices, historical_volume):
     assert np.array_equal(await interpreter.interprete("close"), historical_prices)
     assert await interpreter.interprete("close[-1]") == historical_prices[-1] == 92.22
+    assert np.array_equal(await interpreter.interprete("volume"), historical_volume)
+    assert await interpreter.interprete("volume[-1]") == historical_volume[-1] == 1113

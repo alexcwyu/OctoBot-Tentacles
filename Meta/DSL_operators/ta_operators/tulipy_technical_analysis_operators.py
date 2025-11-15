@@ -24,10 +24,12 @@ import tentacles.Meta.DSL_operators.ta_operators.ta_operator as ta_operator
 
 def _to_numpy_array(data):
     if isinstance(data, list):
-        return np.array(data)
+        return np.array(data, dtype=np.float64)
     elif isinstance(data, tuple):
-        return np.array(list(data))
+        return np.array(list(data), dtype=np.float64)
     elif isinstance(data, np.ndarray):
+        if data.dtype != np.float64:
+            return data.astype(np.float64)
         return data
     else:
         raise ValueError(f"Unsupported data type: {type(data)}")

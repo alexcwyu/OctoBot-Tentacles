@@ -20,6 +20,7 @@ import numpy as np
 
 from tentacles.Meta.DSL_operators.exchange_operators.tests import (
     historical_prices,
+    historical_volume,
     exchange_manager_with_candles,
     interpreter,
 )

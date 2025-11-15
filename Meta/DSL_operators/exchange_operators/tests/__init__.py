@@ -39,13 +39,22 @@ def historical_prices():
 
 
 @pytest.fixture
-def exchange_manager_with_candles(historical_prices):
+def historical_volume(historical_prices):
+    base_volume_pattern = [
+        # will create an int np.array, which will updated to float64 to comply with tulipy requirements
+        903, 1000, 2342, 992, 900, 1231, 1211, 1113
+    ]
+    return np.array(base_volume_pattern*(len(historical_prices) // len(base_volume_pattern) + 1))[:len(historical_prices)]
+
+
+@pytest.fixture
+def exchange_manager_with_candles(historical_prices, historical_volume):
     btc_1h_candles_manager = mock.Mock(
         get_symbol_open_candles=mock.Mock(return_value=historical_prices),
         get_symbol_high_candles=mock.Mock(return_value=historical_prices),
         get_symbol_low_candles=mock.Mock(return_value=historical_prices),
         get_symbol_close_candles=mock.Mock(return_value=historical_prices),
-        get_symbol_volume_candles=mock.Mock(return_value=historical_prices),
+        get_symbol_volume_candles=mock.Mock(return_value=historical_volume),
         get_symbol_time_candles=mock.Mock(return_value=historical_prices),
     )
     eth_1h_candles_manager = mock.Mock(
@@ -53,7 +62,7 @@ def exchange_manager_with_candles(historical_prices):
         get_symbol_high_candles=mock.Mock(return_value=historical_prices / 2),
         get_symbol_low_candles=mock.Mock(return_value=historical_prices / 2),
         get_symbol_close_candles=mock.Mock(return_value=historical_prices / 2),
-        get_symbol_volume_candles=mock.Mock(return_value=historical_prices / 2),
+        get_symbol_volume_candles=mock.Mock(return_value=historical_volume / 2),
         get_symbol_time_candles=mock.Mock(return_value=historical_prices / 2),
     )
     btc_4h_candles_manager = mock.Mock(
@@ -61,7 +70,7 @@ def exchange_manager_with_candles(historical_prices):
         get_symbol_high_candles=mock.Mock(return_value=historical_prices * 2),
         get_symbol_low_candles=mock.Mock(return_value=historical_prices * 2),
         get_symbol_close_candles=mock.Mock(return_value=historical_prices * 2),
-        get_symbol_volume_candles=mock.Mock(return_value=historical_prices * 2),
+        get_symbol_volume_candles=mock.Mock(return_value=historical_volume * 2),
         get_symbol_time_candles=mock.Mock(return_value=historical_prices * 2),
     )
     def _get_symbol_data(symbol: str, **kwargs):

@@ -18,6 +18,7 @@ import pytest
 
 from tentacles.Meta.DSL_operators.exchange_operators.tests import (
     historical_prices,
+    historical_volume,
     exchange_manager_with_candles,
     interpreter,
 )
@@ -39,12 +40,20 @@ async def test_operator_invalid_parameters(interpreter, operator, parameters):
 
 
 @pytest.mark.asyncio
-async def test_operator_output(interpreter):
+async def test_operator_operations(interpreter):
     # ensure the output is a list and can be used in arithmetic operations
     assert isinstance(await interpreter.interprete("rsi(close, 14)"), list)
     assert await interpreter.interprete("round(rsi(close, 26)[-1], 2)") == 74.3
     assert await interpreter.interprete("round(rsi(close, 14)[-1], 2)") == 67.55
     assert await interpreter.interprete("round(rsi(close, 26)[-1] - rsi(close, 14)[-1], 2)") == 6.74
+
+    # combine ma & vwma
+    ma = await interpreter.interprete("ma(close, 14)")
+    vwma = await interpreter.interprete("vwma(close, volume, 14)")
+    assert round(ma[-1], 2) == 92.53
+    assert round(vwma[-1], 2) == 92.37
+    assert round(ma[-1]*0.7 + vwma[-1]*0.3, 2) == 92.48
+    assert await interpreter.interprete("round(ma(close, 14)[-1]*0.7 + vwma(close, volume, 14)[-1]*0.3, 2)") == 92.48
 
 
 @pytest.mark.asyncio
@@ -112,10 +121,29 @@ async def test_ma_operator(interpreter):
 
 
 @pytest.mark.asyncio
+async def test_vwma_operator(interpreter):
+    vwma = await interpreter.interprete("vwma(close, volume, 14)")
+    rounded_vwma = [round(v, 2) for v in vwma]
+    assert rounded_vwma == [
+        # different results from ma(close, 14)
+        84.15, 84.51, 84.87, 85.29, 85.66, 86.3, 86.76, 87.37, 88.02, 88.55, 
+        89.1, 89.9, 90.31, 90.87, 91.16, 91.53, 91.91, 92.19, 92.37
+    ]
+    # different periods, different result
+    vwma = await interpreter.interprete("vwma(close, volume, 20)")
+    rounded_vwma = [round(v, 2) for v in vwma]
+    assert rounded_vwma == [
+        85.52, 85.93, 86.5, 87.19, 87.66, 88.06, 88.53, 89.24, 89.6, 89.9, 
+        90.27, 90.84, 91.08
+    ]
+
+
+@pytest.mark.asyncio
 async def test_ema_operator(interpreter):
     ema = await interpreter.interprete("ema(close, 14)")
     rounded_ema = [round(v, 2) for v in ema]
     assert rounded_ema == [
+        # different results from ma(close, 14)
         81.59, 81.52, 81.7, 81.87, 82.1, 82.24, 82.32, 82.55, 82.81, 83.02, 
         83.35, 83.78, 84.19, 84.67, 85.02, 85.31, 85.53, 86.0, 86.49, 87.01, 
         87.78, 88.53, 89.13, 89.7, 90.29, 90.67, 91.0, 91.15, 91.37, 91.58, 

@@ -78,13 +78,13 @@ def create_ohlcv_operators(
             await super().initialize()
             self.value = _get_candle_manager(*self.get_symbol_and_time_frame()).get_symbol_close_candles(-1)
 
-    class _OpenPriceOperator(OHLCVOperator):
+    class _VolumePriceOperator(OHLCVOperator):
         @staticmethod
         def get_name() -> str:
-            return "open"
+            return "volume"
 
         async def initialize(self) -> None:
             await super().initialize()
-            self.value = _get_candle_manager(*self.get_symbol_and_time_frame()).get_symbol_open_candles(-1)
+            self.value = _get_candle_manager(*self.get_symbol_and_time_frame()).get_symbol_volume_candles(-1)
 
-    return [_ClosePriceOperator, _OpenPriceOperator]
+    return [_ClosePriceOperator, _VolumePriceOperator]
