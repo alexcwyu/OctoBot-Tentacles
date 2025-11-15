@@ -27,6 +27,7 @@ from tentacles.Meta.DSL_operators.exchange_operators.tests import (
 
 @pytest.mark.asyncio
 async def test_close_operator(interpreter, historical_prices):
+    # no param, use context values: SYMBOL, TIME_FRAME: BTC/USDT, 1h
     close = await interpreter.interprete("close")
     assert np.array_equal(close, historical_prices)
     # ensure symbol parameters are used when provided

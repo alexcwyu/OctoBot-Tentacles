@@ -60,18 +60,6 @@ class MACDOperator(ta_operator.TAOperator):
         return list(macd_hist)
 
 
-class ADXOperator(ta_operator.TAOperator):
-    @staticmethod
-    def get_name() -> str:
-        return "adx"
-
-    def compute(self) -> dsl_interpreter_operator.ComputedOperatorParameterType:
-        operands = self.get_computed_parameters()
-        if len(operands) != 4:
-            raise ValueError(f"adx() requires at four arguments: (high, low, close, period), got {len(operands)}")
-        return list(tulipy.adx(_to_numpy_array(operands[0]), _to_numpy_array(operands[1]), _to_numpy_array(operands[2]), period=int(operands[3])))
-
-
 class MAOperator(ta_operator.TAOperator):
     @staticmethod
     def get_name() -> str:
