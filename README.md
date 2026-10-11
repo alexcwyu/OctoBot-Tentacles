@@ -23,3 +23,7 @@ Where:
 - `../../OctoBot-Tentacles`: the path to your fork of this repository (relatively to the folder you are running the command from)
 - `OctoBot-Default-Tentacles`: filter to only export tentacles tagged as `OctoBot-Default-Tentacles` (in metadata file)
 - `-d tentacles`: name of your OctoBot tentacles folder that are to be copied to the repo (relatively to the folder you are running the command from)
+
+## Development and architecture
+
+See the [source-linked architecture guide](docs/ayu-develop.md), [HTML guide](docs/ayu-develop.html), [uv development workflow](docs/development.md), and [exact validation evidence](docs/validation.md).

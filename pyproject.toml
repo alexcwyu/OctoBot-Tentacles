@@ -9,13 +9,13 @@ description = "OctoBot Tentacles - plugin collection for OctoBot trading bot"
 readme = "README.md"
 license = "LGPL-3.0-only"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = ["octobot[full]"]
 
 [project.optional-dependencies]
 dev = [
-  "ruff>=0.11",
-  "pyright>=1.1",
-  "pytest>=9.0",
+    "ruff",
+    "pyright",
+    "pytest",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -47,3 +47,17 @@ testpaths = ["tests"]
 pythonpath = ["src"]
 xfail_strict = true
 filterwarnings = ["error"]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "pytest-timeout",
+    "pytest-xdist",
+    "mock",
+    "ruff",
+]
+
+[tool.uv.sources]
+octobot = { path = "../OctoBot", editable = true }
