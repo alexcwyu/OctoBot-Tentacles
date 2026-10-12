@@ -16,16 +16,16 @@
 import flask
 import octobot.enums
 
-import tentacles.Services.Interfaces.web_interface.api.config
-import tentacles.Services.Interfaces.web_interface.api.exchanges
-import tentacles.Services.Interfaces.web_interface.api.feedback
-import tentacles.Services.Interfaces.web_interface.api.metadata
-import tentacles.Services.Interfaces.web_interface.api.trading
-import tentacles.Services.Interfaces.web_interface.api.user_commands
-import tentacles.Services.Interfaces.web_interface.api.bots
-import tentacles.Services.Interfaces.web_interface.api.webhook
-import tentacles.Services.Interfaces.web_interface.api.tentacles_packages
-import tentacles.Services.Interfaces.web_interface.api.dsl
+import tentacles.Services.Interfaces.web_interface.api.config as config
+import tentacles.Services.Interfaces.web_interface.api.exchanges as exchanges
+import tentacles.Services.Interfaces.web_interface.api.feedback as feedback
+import tentacles.Services.Interfaces.web_interface.api.metadata as metadata
+import tentacles.Services.Interfaces.web_interface.api.trading as trading
+import tentacles.Services.Interfaces.web_interface.api.user_commands as user_commands
+import tentacles.Services.Interfaces.web_interface.api.bots as bots
+import tentacles.Services.Interfaces.web_interface.api.webhook as webhook
+import tentacles.Services.Interfaces.web_interface.api.tentacles_packages as tentacles_packages
+import tentacles.Services.Interfaces.web_interface.api.dsl as dsl
 
 from tentacles.Services.Interfaces.web_interface.api.webhook import (
     has_webhook,
@@ -37,21 +37,21 @@ from tentacles.Services.Interfaces.web_interface.api.webhook import (
 def register(distribution: octobot.enums.OctoBotDistribution):
     blueprint = flask.Blueprint('api', __name__, url_prefix='/api', template_folder="")
     if distribution is octobot.enums.OctoBotDistribution.DEFAULT:
-        tentacles.Services.Interfaces.web_interface.api.feedback.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.api.bots.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.api.webhook.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.api.tentacles_packages.register(blueprint)
+        feedback.register(blueprint)
+        bots.register(blueprint)
+        webhook.register(blueprint)
+        tentacles_packages.register(blueprint)
 
     elif distribution is octobot.enums.OctoBotDistribution.MARKET_MAKING:
         pass
 
     # common routes
-    tentacles.Services.Interfaces.web_interface.api.config.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.api.exchanges.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.api.metadata.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.api.trading.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.api.user_commands.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.api.dsl.register(blueprint)
+    config.register(blueprint)
+    exchanges.register(blueprint)
+    metadata.register(blueprint)
+    trading.register(blueprint)
+    user_commands.register(blueprint)
+    dsl.register(blueprint)
     return blueprint
 
 

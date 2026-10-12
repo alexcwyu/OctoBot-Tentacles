@@ -103,14 +103,6 @@ async def test_orders_with_invalid_values(mock_context, skip_if_octobot_trading_
 @pytest.mark.parametrize("backtesting_config", ["USDT"], indirect=["backtesting_config"])
 async def test_orders_amount_then_position_sequence(mock_context):
     initial_usdt_holdings, btc_price = await _usdt_trading_context(mock_context)
-    mock_context.exchange_manager.is_future = True
-    api.load_pair_contract(
-        mock_context.exchange_manager,
-        api.create_default_future_contract(
-            mock_context.symbol, decimal.Decimal(1), trading_enums.FutureContractType.LINEAR_PERPETUAL,
-            trading_constants.DEFAULT_SYMBOL_POSITION_MODE
-        ).to_dict()
-    )
 
     if os.getenv('CYTHON_IGNORE'):
         return

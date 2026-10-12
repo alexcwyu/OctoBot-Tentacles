@@ -26,7 +26,14 @@ _EXPECTED_MAX_TENTACLES_COUNT = 256
 
 
 def get_config_history_propagated_tentacles_config_keys(tentacle: str) -> list[str]:
-    tentacle_class = octobot_tentacles_manager.api.get_tentacle_class_from_string(tentacle)
+    try:
+        tentacle_class = octobot_tentacles_manager.api.get_tentacle_class_from_string(tentacle)
+    except RuntimeError as error:
+        if str(error) != f"Can't find tentacle: {tentacle}":
+            raise
+        # Historical profiles can retain entries for uninstalled tentacles.
+        # They have no registered contract authorizing master config propagation.
+        return []
     return tentacle_class.get_config_history_propagated_tentacles_config_keys()
 
 

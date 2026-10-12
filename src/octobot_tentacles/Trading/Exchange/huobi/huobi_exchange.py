@@ -21,3 +21,8 @@ class Huobi(htx_exchange.Htx):
     @classmethod
     def get_name(cls):
         return 'huobi'
+
+    @classmethod
+    def get_rest_name(cls, exchange_manager):
+        # This existing legacy plugin delegates to the actual HTX implementation.
+        return htx_exchange.Htx.get_name()

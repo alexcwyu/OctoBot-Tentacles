@@ -34,7 +34,7 @@ import octobot_evaluators.constants as evaluators_constants
 
 import octobot_trading.constants as trading_constants
 import octobot_trading.exchanges as exchanges
-import octobot_trading.util.test_tools.exchange_data as exchange_data_import
+import octobot_trading.exchanges.util.exchange_data as exchange_data_import
 import octobot_trading.api
 
 import octobot_tentacles_manager.api
@@ -97,7 +97,7 @@ def get_config(
         _set_portfolio(profile_data, exchange_data.portfolio_details.content)
         # do not allow using backtesting context when using exchange data portfolio
         profile_data.backtesting_context = None # type: ignore
-    profile = profile_data.to_profile(None)
+    profile = commons_profiles.EphemeralProfile.from_profile_data(profile_data)
     profile_data.backtesting_context = initial_backtesting_context
     config.profile_by_id[profile.profile_id] = profile
     config.select_profile(profile.profile_id)

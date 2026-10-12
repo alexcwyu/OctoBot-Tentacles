@@ -140,9 +140,11 @@ class IndexTradingModeConsumer(trading_modes.AbstractTradingModeConsumer):
         removed_coins_to_sell_orders = []
         if removed_coins_to_sell := list(details[RebalanceDetails.REMOVE.value]):
             removed_coins_to_sell_orders = await trading_modes.convert_assets_to_target_asset(
-                self.trading_mode, removed_coins_to_sell,
-                self.exchange_manager.exchange_personal_data.portfolio_manager.reference_market, {},
-                dependencies=dependencies
+                removed_coins_to_sell,
+                self.exchange_manager.exchange_personal_data.portfolio_manager.reference_market,
+                {},
+                dependencies=dependencies,
+                trading_mode=self.trading_mode,
             )
             if (
                 details[RebalanceDetails.REMOVE.value] and
@@ -172,9 +174,11 @@ class IndexTradingModeConsumer(trading_modes.AbstractTradingModeConsumer):
                     )
         order_coins_to_sell = self._get_coins_to_sell(details)
         orders = await trading_modes.convert_assets_to_target_asset(
-            self.trading_mode, order_coins_to_sell,
-            self.exchange_manager.exchange_personal_data.portfolio_manager.reference_market, {},
-            dependencies=dependencies
+            order_coins_to_sell,
+            self.exchange_manager.exchange_personal_data.portfolio_manager.reference_market,
+            {},
+            dependencies=dependencies,
+            trading_mode=self.trading_mode,
         ) + removed_coins_to_sell_orders
         if orders:
             # ensure orders are filled
@@ -1187,5 +1191,8 @@ class IndexTradingMode(trading_modes.AbstractTradingMode):
         self, sellable_assets: list, target_asset: str, tickers: dict
     ) -> list:
         return await trading_modes.convert_assets_to_target_asset(
-            self, sellable_assets, target_asset, tickers
+            sellable_assets,
+            target_asset,
+            tickers,
+            trading_mode=self,
         )

@@ -13,23 +13,23 @@
 #
 #  You should have received a copy of the GNU Lesser General Public
 #  License along with this library.
-import tentacles.Services.Interfaces.web_interface.controllers.portfolio
-import tentacles.Services.Interfaces.web_interface.controllers.logs
-import tentacles.Services.Interfaces.web_interface.controllers.dashboard
-import tentacles.Services.Interfaces.web_interface.controllers.tentacles_config
-import tentacles.Services.Interfaces.web_interface.controllers.distributions.market_making.dashboard
-import tentacles.Services.Interfaces.web_interface.controllers.distributions.market_making.configuration
-import tentacles.Services.Interfaces.web_interface.controllers.distributions.market_making.cloud
+import tentacles.Services.Interfaces.web_interface.controllers.portfolio as portfolio
+import tentacles.Services.Interfaces.web_interface.controllers.logs as logs
+import tentacles.Services.Interfaces.web_interface.controllers.dashboard as shared_dashboard
+import tentacles.Services.Interfaces.web_interface.controllers.tentacles_config as tentacles_config
+import tentacles.Services.Interfaces.web_interface.controllers.distributions.market_making.dashboard as market_dashboard
+import tentacles.Services.Interfaces.web_interface.controllers.distributions.market_making.configuration as market_configuration
+import tentacles.Services.Interfaces.web_interface.controllers.distributions.market_making.cloud as cloud
 
 
 def register(blueprint):
-    tentacles.Services.Interfaces.web_interface.controllers.portfolio.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.controllers.logs.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.controllers.dashboard.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.controllers.tentacles_config.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.controllers.distributions.market_making.dashboard.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.controllers.distributions.market_making.configuration.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.controllers.distributions.market_making.cloud.register(blueprint)
+    portfolio.register(blueprint)
+    logs.register(blueprint)
+    shared_dashboard.register(blueprint)
+    tentacles_config.register(blueprint)
+    market_dashboard.register(blueprint)
+    market_configuration.register(blueprint)
+    cloud.register(blueprint)
 
 
 __all__ = [

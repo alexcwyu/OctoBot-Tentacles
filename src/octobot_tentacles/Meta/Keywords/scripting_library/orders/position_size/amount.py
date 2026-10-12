@@ -31,15 +31,31 @@ async def get_amount(
     unknown_portfolio_on_creation=False,
     target_price=None
 ):
-    amount_value = await script_keywords.get_amount_from_input_amount(
-        context=context,
-        input_amount=input_amount,
-        side=side,
-        reduce_only=reduce_only,
-        is_stop_order=is_stop_order,
-        use_total_holding=use_total_holding,
-        target_price=target_price
-    )
+    amount_type, position_percent = script_keywords.parse_quantity(input_amount)
+    if (
+        amount_type in (script_keywords.QuantityType.POSITION_PERCENT,
+                        script_keywords.QuantityType.POSITION_PERCENT_ALIAS)
+        and position_percent is not None and position_percent > 0
+        and not context.exchange_manager.is_future
+    ):
+        # Spot positions are actual base-asset holdings, not futures contracts.
+        # Keep the same position-percent syntax without constructing a synthetic
+        # futures position over a spot portfolio.
+        amount_value = abs(exchange_private_data.open_position_size(context)) * position_percent / 100
+        amount_value = await script_keywords.adapt_amount_to_holdings(
+            context, amount_value, side, use_total_holding, reduce_only,
+            is_stop_order, target_price=target_price
+        )
+    else:
+        amount_value = await script_keywords.get_amount_from_input_amount(
+            context=context,
+            input_amount=input_amount,
+            side=side,
+            reduce_only=reduce_only,
+            is_stop_order=is_stop_order,
+            use_total_holding=use_total_holding,
+            target_price=target_price
+        )
     if unknown_portfolio_on_creation:
         # no way to check if the amount is valid when creating order
         _, amount_value = script_keywords.parse_quantity(input_amount)

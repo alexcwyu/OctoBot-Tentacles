@@ -21,7 +21,7 @@ import octobot_commons.enums as commons_enums
 import octobot_commons.tests as commons_tests
 import octobot_trading.exchanges as exchanges
 import octobot_trading.util.test_tools.websocket_test_tools as websocket_test_tools
-from ...binanceus_websocket_feed import BinanceUSWebsocketFeedConnector
+from ...binanceus_websocket_feed import BinanceUSCCXTFeedConnector
 
 # All test coroutines will be treated as marked.
 pytestmark = pytest.mark.asyncio
@@ -29,17 +29,21 @@ pytestmark = pytest.mark.asyncio
 
 async def test_start_spot_websocket():
     config = commons_tests.load_test_config()
-    async with websocket_test_tools.ws_exchange_manager(config, BinanceUSWebsocketFeedConnector.get_name()) \
+    async with websocket_test_tools.ws_exchange_manager(config, BinanceUSCCXTFeedConnector.get_name()) \
             as exchange_manager_instance:
         await websocket_test_tools.test_unauthenticated_push_to_channel_coverage_websocket(
-            websocket_exchange_class=exchanges.CryptofeedWebSocketExchange,
-            websocket_connector_class=BinanceUSWebsocketFeedConnector,
+            websocket_exchange_class=exchanges.DefaultWebSocketExchange,
+            websocket_connector_class=BinanceUSCCXTFeedConnector,
             exchange_manager=exchange_manager_instance,
             config=config,
             symbols=["BTC/USDT", "ETH/BTC", "ETH/USDT"],
-            time_frames=[commons_enums.TimeFrames.ONE_HOUR],
+            time_frames=[commons_enums.TimeFrames.ONE_MINUTE, commons_enums.TimeFrames.ONE_HOUR],
+            # Current spot CCXT feeds derive the ticker from live klines;
+            # trades are intentionally suppressed when ticker data is available.
             expected_pushed_channels={
-                channels_name.OctoBotTradingChannelsName.MARK_PRICE_CHANNEL.value
+                channels_name.OctoBotTradingChannelsName.TICKER_CHANNEL.value,
+                channels_name.OctoBotTradingChannelsName.KLINE_CHANNEL.value,
+                channels_name.OctoBotTradingChannelsName.OHLCV_CHANNEL.value,
             },
-            time_before_assert=20
+            time_before_assert=75
         )

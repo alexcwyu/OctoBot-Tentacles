@@ -16,6 +16,7 @@
 #  License along with this library.
 import typing
 
+import octobot_commons.enums as commons_enums
 import octobot_commons.constants
 import octobot_commons.errors
 import octobot_commons.dsl_interpreter as dsl_interpreter
@@ -39,7 +40,7 @@ class PortfolioOperator(exchange_operator.ExchangeOperator):
     @staticmethod
     def get_parameters() -> list[dsl_interpreter.OperatorParameter]:
         return [
-            dsl_interpreter.OperatorParameter(name="asset", description="the asset to get the value for", required=False, type=str),
+            dsl_interpreter.OperatorParameter(name="asset", description="the asset to get the value for", required=False, type=commons_enums.DslValueType.TEXT.value),
         ]
 
     def compute(self) -> dsl_interpreter.ComputedOperatorParameterType:

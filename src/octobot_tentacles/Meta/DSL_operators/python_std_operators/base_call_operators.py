@@ -16,6 +16,7 @@
 #  License along with this library.
 import math
 
+import octobot_commons.enums as commons_enums
 import octobot_commons.errors
 import octobot_commons.dsl_interpreter as dsl_interpreter
 
@@ -124,8 +125,8 @@ class RoundOperator(dsl_interpreter.CallOperator):
     @staticmethod
     def get_parameters() -> list[dsl_interpreter.OperatorParameter]:
         return [
-            dsl_interpreter.OperatorParameter(name="value", description="the value to round", required=True, type=list),
-            dsl_interpreter.OperatorParameter(name="digits", description="the number of digits to round to", required=False, type=int),
+            dsl_interpreter.OperatorParameter(name="value", description="the value to round", required=True, type=commons_enums.DslValueType.NUMBER.value),
+            dsl_interpreter.OperatorParameter(name="digits", description="the number of digits to round to", required=False, type=commons_enums.DslValueType.NUMBER.value),
         ]
 
     def compute(self) -> dsl_interpreter.ComputedOperatorParameterType:

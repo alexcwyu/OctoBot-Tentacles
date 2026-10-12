@@ -15,62 +15,62 @@
 #  License along with this library.
 import octobot.enums
 
-import tentacles.Services.Interfaces.web_interface.controllers.octobot_authentication
-import tentacles.Services.Interfaces.web_interface.controllers.community_authentication
-import tentacles.Services.Interfaces.web_interface.controllers.backtesting
-import tentacles.Services.Interfaces.web_interface.controllers.commands
-import tentacles.Services.Interfaces.web_interface.controllers.about
-import tentacles.Services.Interfaces.web_interface.controllers.community
-import tentacles.Services.Interfaces.web_interface.controllers.configuration
-import tentacles.Services.Interfaces.web_interface.controllers.tentacles_config
-import tentacles.Services.Interfaces.web_interface.controllers.dashboard
-import tentacles.Services.Interfaces.web_interface.controllers.errors
-import tentacles.Services.Interfaces.web_interface.controllers.octobot_help
-import tentacles.Services.Interfaces.web_interface.controllers.home
-import tentacles.Services.Interfaces.web_interface.controllers.interface_settings
-import tentacles.Services.Interfaces.web_interface.controllers.logs
-import tentacles.Services.Interfaces.web_interface.controllers.medias
-import tentacles.Services.Interfaces.web_interface.controllers.terms
-import tentacles.Services.Interfaces.web_interface.controllers.trading
-import tentacles.Services.Interfaces.web_interface.controllers.portfolio
-import tentacles.Services.Interfaces.web_interface.controllers.profiles
-import tentacles.Services.Interfaces.web_interface.controllers.automation
-import tentacles.Services.Interfaces.web_interface.controllers.reboot
-import tentacles.Services.Interfaces.web_interface.controllers.welcome
-import tentacles.Services.Interfaces.web_interface.controllers.robots
-import tentacles.Services.Interfaces.web_interface.controllers.distributions.market_making
-import tentacles.Services.Interfaces.web_interface.controllers.dsl
+import tentacles.Services.Interfaces.web_interface.controllers.octobot_authentication as octobot_authentication
+import tentacles.Services.Interfaces.web_interface.controllers.community_authentication as community_authentication
+import tentacles.Services.Interfaces.web_interface.controllers.backtesting as backtesting
+import tentacles.Services.Interfaces.web_interface.controllers.commands as commands
+import tentacles.Services.Interfaces.web_interface.controllers.about as about
+import tentacles.Services.Interfaces.web_interface.controllers.community as community
+import tentacles.Services.Interfaces.web_interface.controllers.configuration as configuration
+import tentacles.Services.Interfaces.web_interface.controllers.tentacles_config as tentacles_config
+import tentacles.Services.Interfaces.web_interface.controllers.dashboard as dashboard
+import tentacles.Services.Interfaces.web_interface.controllers.errors as errors
+import tentacles.Services.Interfaces.web_interface.controllers.octobot_help as octobot_help
+import tentacles.Services.Interfaces.web_interface.controllers.home as home
+import tentacles.Services.Interfaces.web_interface.controllers.interface_settings as interface_settings
+import tentacles.Services.Interfaces.web_interface.controllers.logs as logs
+import tentacles.Services.Interfaces.web_interface.controllers.medias as medias
+import tentacles.Services.Interfaces.web_interface.controllers.terms as terms
+import tentacles.Services.Interfaces.web_interface.controllers.trading as trading
+import tentacles.Services.Interfaces.web_interface.controllers.portfolio as portfolio
+import tentacles.Services.Interfaces.web_interface.controllers.profiles as profiles
+import tentacles.Services.Interfaces.web_interface.controllers.automation as automation
+import tentacles.Services.Interfaces.web_interface.controllers.reboot as reboot
+import tentacles.Services.Interfaces.web_interface.controllers.welcome as welcome
+import tentacles.Services.Interfaces.web_interface.controllers.robots as robots
+import tentacles.Services.Interfaces.web_interface.controllers.distributions.market_making as market_making
+import tentacles.Services.Interfaces.web_interface.controllers.dsl as dsl
 
 
 def register(blueprint, distribution: octobot.enums.OctoBotDistribution):
     if distribution is octobot.enums.OctoBotDistribution.DEFAULT:
-        tentacles.Services.Interfaces.web_interface.controllers.community_authentication.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.backtesting.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.about.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.community.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.configuration.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.tentacles_config.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.dashboard.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.octobot_help.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.home.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.interface_settings.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.logs.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.trading.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.portfolio.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.profiles.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.automation.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.welcome.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.controllers.dsl.register(blueprint)
+        community_authentication.register(blueprint)
+        backtesting.register(blueprint)
+        about.register(blueprint)
+        community.register(blueprint)
+        configuration.register(blueprint)
+        tentacles_config.register(blueprint)
+        dashboard.register(blueprint)
+        octobot_help.register(blueprint)
+        home.register(blueprint)
+        interface_settings.register(blueprint)
+        logs.register(blueprint)
+        trading.register(blueprint)
+        portfolio.register(blueprint)
+        profiles.register(blueprint)
+        automation.register(blueprint)
+        welcome.register(blueprint)
+        dsl.register(blueprint)
     elif distribution is octobot.enums.OctoBotDistribution.MARKET_MAKING:
-        tentacles.Services.Interfaces.web_interface.controllers.distributions.market_making.register(blueprint)
+        market_making.register(blueprint)
     # common routes
-    tentacles.Services.Interfaces.web_interface.controllers.octobot_authentication.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.controllers.robots.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.controllers.reboot.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.controllers.terms.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.controllers.errors.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.controllers.commands.register(blueprint)
-    tentacles.Services.Interfaces.web_interface.controllers.medias.register(blueprint)
+    octobot_authentication.register(blueprint)
+    robots.register(blueprint)
+    reboot.register(blueprint)
+    terms.register(blueprint)
+    errors.register(blueprint)
+    commands.register(blueprint)
+    medias.register(blueprint)
 
 
 __all__ = [

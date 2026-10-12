@@ -37,9 +37,9 @@ import tentacles.Services.Interfaces.web_interface.plugins as web_interface_plug
 import tentacles.Services.Interfaces.web_interface.flask_util as flask_util
 import tentacles.Services.Interfaces.web_interface.util as web_interface_util
 import tentacles.Services.Interfaces.web_interface as web_interface_root
-import tentacles.Services.Interfaces.web_interface.controllers
-import tentacles.Services.Interfaces.web_interface.advanced_controllers
-import tentacles.Services.Interfaces.web_interface.api
+import tentacles.Services.Interfaces.web_interface.controllers as web_controllers
+import tentacles.Services.Interfaces.web_interface.advanced_controllers as advanced_web_controllers
+import tentacles.Services.Interfaces.web_interface.api as web_api
 import tentacles.Services.Services_bases as Service_bases
 import octobot_tentacles_manager.api
 
@@ -201,12 +201,12 @@ class WebInterface(services_interfaces.AbstractWebInterface):
         login.set_is_login_required(requires_password)
 
     def _register_routes(self, server_instance, distribution: octobot.enums.OctoBotDistribution):
-        tentacles.Services.Interfaces.web_interface.controllers.register(server_instance, distribution)
+        web_controllers.register(server_instance, distribution)
         server_instance.register_blueprint(
-            tentacles.Services.Interfaces.web_interface.api.register(distribution)
+            web_api.register(distribution)
         )
         server_instance.register_blueprint(
-            tentacles.Services.Interfaces.web_interface.advanced_controllers.register(distribution)
+            advanced_web_controllers.register(distribution)
         )
 
     def _prepare_websocket(self, server_instance):

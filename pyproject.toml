@@ -9,7 +9,7 @@ description = "OctoBot Tentacles - plugin collection for OctoBot trading bot"
 readme = "README.md"
 license = "LGPL-3.0-only"
 requires-python = ">=3.13"
-dependencies = ["octobot[full]"]
+dependencies = ["octobot[full]", "flask-socketio", "flask-caching", "flask-compress", "flask-cors", "flask-login", "flask-wtf", "python-telegram-bot", "asgiref", "telethon", "asyncpraw", "vaderSentiment", "pyngrok", "gevent", "simplifiedpytrends"]
 
 [project.optional-dependencies]
 dev = [
@@ -59,5 +59,10 @@ dev = [
     "ruff",
 ]
 
+[tool.uv]
+override-dependencies = ["multidict>=6.9.1"]
+
 [tool.uv.sources]
+octobot-tulipy = { path = "../OctoBot/vendor/octobot-tulipy" }
 octobot = { path = "../OctoBot", editable = true }
+octobot-ccxt = { url = "https://github.com/Drakkar-Software/ccxt/archive/791e42d60faaa27306405919c27918dc056466f7.tar.gz" }

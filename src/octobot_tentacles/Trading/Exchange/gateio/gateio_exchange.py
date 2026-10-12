@@ -37,6 +37,11 @@ class GateIO(exchanges.RestExchange):
     def get_name(cls):
         return 'gateio'
 
+    @classmethod
+    def get_rest_name(cls, exchange_manager):
+        # Gate kept its API while CCXT renamed the adapter after the rebrand.
+        return 'gate'
+
     def get_adapter_class(self):
         return GateioCCXTAdapter
 

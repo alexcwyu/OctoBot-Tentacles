@@ -18,6 +18,7 @@ import typing
 import dataclasses
 import numpy as np
 
+import octobot_commons.enums as commons_enums
 import octobot_commons.constants
 import octobot_commons.errors
 import octobot_commons.logging
@@ -55,8 +56,8 @@ class OHLCVOperator(exchange_operator.ExchangeOperator):
     @staticmethod
     def get_parameters() -> list[dsl_interpreter.OperatorParameter]:
         return [
-            dsl_interpreter.OperatorParameter(name="symbol", description="the symbol to get the OHLCV data for", required=False, type=str),
-            dsl_interpreter.OperatorParameter(name="time_frame", description="the time frame to get the OHLCV data for", required=False, type=str),
+            dsl_interpreter.OperatorParameter(name="symbol", description="the symbol to get the OHLCV data for", required=False, type=commons_enums.DslValueType.TEXT.value),
+            dsl_interpreter.OperatorParameter(name="time_frame", description="the time frame to get the OHLCV data for", required=False, type=commons_enums.DslValueType.TIME_FRAME.value),
         ]
 
     def get_symbol_and_time_frame(self) -> typing.Tuple[typing.Optional[str], typing.Optional[str]]:

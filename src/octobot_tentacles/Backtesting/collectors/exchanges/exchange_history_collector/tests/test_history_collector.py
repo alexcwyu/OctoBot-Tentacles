@@ -20,6 +20,7 @@ import json
 import asyncio
 
 import octobot_commons.databases as databases
+import octobot_backtesting.databases as backtesting_databases
 import octobot_commons.symbols as commons_symbols
 import octobot_commons.enums as commons_enums
 import octobot_commons.constants as commons_constants
@@ -59,7 +60,7 @@ async def data_collector(exchange_name, tentacles_setup_config, symbols, time_fr
 
 @contextlib.asynccontextmanager
 async def collector_database(collector):
-    database = databases.SQLiteDatabase(collector.file_path)
+    database = backtesting_databases.BacktestingDataSQLiteDatabase(collector.file_path)
     try:
         await database.initialize()
         yield database
@@ -211,7 +212,7 @@ async def test_collect_multi_pair():
             assert len(ohlcv) > 19316
             h_ohlcv = await database.select(enums.ExchangeDataTables.OHLCV, time_frame="4h")
             assert len(h_ohlcv) == len(symbols) * BINANCEUS_MAX_CANDLES_COUNT
-            symbols_description = json.loads((await database.select(enums.DataTables.DESCRIPTION))[0][3])
+            symbols_description = json.loads((await database.select(enums.DataTables.DESCRIPTION))[0][4])
             assert all(symbol in symbols_description for symbol in symbols)
             eth_btc_ohlcv = await database.select(enums.ExchangeDataTables.OHLCV, symbol="ETH/BTC")
             assert len(eth_btc_ohlcv) > 6598

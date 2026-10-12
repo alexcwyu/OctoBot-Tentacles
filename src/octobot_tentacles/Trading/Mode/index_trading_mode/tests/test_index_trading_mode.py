@@ -309,7 +309,7 @@ async def test_single_exchange_process_optimize_initial_portfolio(tools):
     ) as cancel_order_mock:
         # no open order
         orders = await mode.single_exchange_process_optimize_initial_portfolio(["BTC", "ETH"], "USDT", {})
-        convert_assets_to_target_asset_mock.assert_called_once_with(mode, ["BTC", "ETH"], "USDT", {})
+        convert_assets_to_target_asset_mock.assert_called_once_with(["BTC", "ETH"], "USDT", {}, trading_mode=mode)
         cancel_order_mock.assert_not_called()
         assert orders == ["order_1"]
         convert_assets_to_target_asset_mock.reset_mock()
@@ -344,7 +344,7 @@ async def test_single_exchange_process_optimize_initial_portfolio(tools):
         mode.exchange_manager.exchange_config.traded_symbol_pairs = ["BTC/USDT", "ETH/USDT"]
 
         orders = await mode.single_exchange_process_optimize_initial_portfolio(["BTC", "ETH"], "USDT", {})
-        convert_assets_to_target_asset_mock.assert_called_once_with(mode, ["BTC", "ETH"], "USDT", {})
+        convert_assets_to_target_asset_mock.assert_called_once_with(["BTC", "ETH"], "USDT", {}, trading_mode=mode)
         cancel_order_mock.assert_not_called()
         assert orders == ["order_1"]
         convert_assets_to_target_asset_mock.reset_mock()
@@ -1564,10 +1564,10 @@ async def test_sell_indexed_coins_for_reference_market(tools):
         }
         assert await consumer._sell_indexed_coins_for_reference_market(details, trading_signals.get_orders_dependencies([mock.Mock(order_id="123")])) == orders
         convert_assets_to_target_asset_mock.assert_called_once_with(
-            mode, [1, 2, 3],
+            [1, 2, 3],
             consumer.exchange_manager.exchange_personal_data.portfolio_manager.reference_market, {},
             dependencies=trading_signals.get_orders_dependencies([mock.Mock(order_id="123")])
-        )
+        , trading_mode=mode)
         assert wait_for_order_fill_mock.call_count == 2
         _get_coins_to_sell_mock.assert_called_once_with(details)
         convert_assets_to_target_asset_mock.reset_mock()
@@ -1604,10 +1604,10 @@ async def test_sell_indexed_coins_for_reference_market(tools):
             with pytest.raises(trading_errors.MissingMinimalExchangeTradeVolume):
                 assert await consumer._sell_indexed_coins_for_reference_market(details, trading_signals.get_orders_dependencies([mock.Mock(order_id="123")])) == orders + orders
             convert_assets_to_target_asset_mock_2.assert_called_once_with(
-                mode, ["BTC"],
+                ["BTC"],
                 consumer.exchange_manager.exchange_personal_data.portfolio_manager.reference_market, {},
                 dependencies=trading_signals.get_orders_dependencies([mock.Mock(order_id="123")])
-            )
+            , trading_mode=mode)
             wait_for_order_fill_mock.assert_not_called()
             _get_coins_to_sell_mock.assert_not_called()
 

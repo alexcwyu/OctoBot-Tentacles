@@ -54,7 +54,13 @@ def register(blueprint):
         try:
             version = _LATEST_VERSION_CACHE["version"]
         except KeyError:
-            version = interfaces.run_in_bot_main_loop(fetch_upgrade_version(), timeout=5)
+            fetch = fetch_upgrade_version()
+            try:
+                version = interfaces.run_in_bot_main_loop(fetch, timeout=5)
+            finally:
+                # Dispatch can fail before the host has scheduled the coroutine.
+                if fetch.cr_await is None and not fetch.cr_running:
+                    fetch.close()
             _LATEST_VERSION_CACHE["version"] = version
 
         return json.dumps(version)

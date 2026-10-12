@@ -23,3 +23,6 @@ class HuobiCCXTWebsocketConnector(htx_websocket.HtxCCXTWebsocketConnector):
     def get_name(cls):
         return huobi_exchange.Huobi.get_name()
 
+    def get_feed_name(self):
+        return htx_websocket.HtxCCXTWebsocketConnector.get_name()
+

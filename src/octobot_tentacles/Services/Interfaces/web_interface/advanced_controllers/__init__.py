@@ -16,21 +16,21 @@
 import flask
 import octobot.enums
 
-import tentacles.Services.Interfaces.web_interface.advanced_controllers.configuration
-import tentacles.Services.Interfaces.web_interface.advanced_controllers.home
-import tentacles.Services.Interfaces.web_interface.advanced_controllers.matrix
-import tentacles.Services.Interfaces.web_interface.advanced_controllers.strategy_optimizer
-import tentacles.Services.Interfaces.web_interface.advanced_controllers.tentacles_management
+import tentacles.Services.Interfaces.web_interface.advanced_controllers.configuration as configuration
+import tentacles.Services.Interfaces.web_interface.advanced_controllers.home as home
+import tentacles.Services.Interfaces.web_interface.advanced_controllers.matrix as matrix
+import tentacles.Services.Interfaces.web_interface.advanced_controllers.strategy_optimizer as strategy_optimizer
+import tentacles.Services.Interfaces.web_interface.advanced_controllers.tentacles_management as tentacles_management
 
 
 def register(distribution: octobot.enums.OctoBotDistribution):
     blueprint = flask.Blueprint('advanced', __name__, url_prefix='/advanced', template_folder="../advanced_templates")
     if distribution is octobot.enums.OctoBotDistribution.DEFAULT:
-        tentacles.Services.Interfaces.web_interface.advanced_controllers.configuration.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.advanced_controllers.home.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.advanced_controllers.matrix.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.advanced_controllers.strategy_optimizer.register(blueprint)
-        tentacles.Services.Interfaces.web_interface.advanced_controllers.tentacles_management.register(blueprint)
+        configuration.register(blueprint)
+        home.register(blueprint)
+        matrix.register(blueprint)
+        strategy_optimizer.register(blueprint)
+        tentacles_management.register(blueprint)
 
     return blueprint
 

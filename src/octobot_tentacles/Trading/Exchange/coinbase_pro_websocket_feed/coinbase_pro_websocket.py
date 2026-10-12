@@ -30,5 +30,8 @@ class CoinbaseProCCXTWebsocketConnector(exchanges.CCXTWebsocketConnector):
     def get_name(cls):
         return coinbase_pro_exchange.CoinbasePro.get_name()
 
+    def get_feed_name(self):
+        return 'coinbaseexchange'
+
     def get_adapter_class(self, adapter_class):
         return coinbase_pro_exchange.CoinbaseProCCXTAdapter

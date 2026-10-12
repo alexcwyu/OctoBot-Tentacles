@@ -27,12 +27,12 @@ import octobot_evaluators.errors as evaluators_errors
 import octobot_trading.api as trading_api
 import octobot_services.api as services_api
 import octobot_services.errors as services_errors
-import tentacles.Services.Services_bases
+import tentacles.Services.Services_bases as service_bases
 
 
 def _get_gpt_service():
     try:
-        return tentacles.Services.Services_bases.GPTService
+        return service_bases.GPTService
     except (AttributeError, ImportError):
         raise ImportError("the gpt_service tentacle is not installed")
 

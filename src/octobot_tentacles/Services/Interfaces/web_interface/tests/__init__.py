@@ -91,19 +91,26 @@ def _start_web_interface(interface):
 @contextlib.asynccontextmanager
 async def get_web_interface(require_password: bool, distribution: octobot.enums.OctoBotDistribution):
     web_interface_instance = None
+    bot = None
+    server_thread = None
+    previous_bot_id = interfaces.AbstractInterface.bot_id
     try:
         with mock.patch.object(configuration_storage.SyncConfigurationStorage, "_save_value_in_config", mock.Mock()):
+            bot = await _init_bot(distribution)
+            # The current host resolves APIs through its real bot-id registry.
+            interfaces.AbstractInterface.initialize_global_project_data(
+                bot.bot_id, "OctoBot", octobot.constants.LONG_VERSION
+            )
             web_interface_instance = web_interface.WebInterface({})
             web_interface_instance.port = PORT
             web_interface_instance.should_open_web_interface = False
             web_interface_instance.set_requires_password(require_password)
             web_interface_instance.password_hash = configuration.get_password_hash(PASSWORD)
-            bot = await _init_bot(distribution)
-            interfaces.AbstractInterface.bot_api = bot.octobot_api
             first_exchange = next(iter(bot.config[commons_constants.CONFIG_EXCHANGES]))
             with mock.patch.object(web_interface_instance, "_register_on_channels", new=mock.AsyncMock()), \
                  mock.patch.object(models, "get_current_exchange", mock.Mock(return_value=first_exchange)):
-                threading.Thread(target=_start_web_interface, args=(web_interface_instance,)).start()
+                server_thread = threading.Thread(target=_start_web_interface, args=(web_interface_instance,))
+                server_thread.start()
                 # ensure web interface had time to start or it can't be stopped at the moment
                 launch_time = time.time()
                 while not web_interface_instance.started and time.time() - launch_time < MAX_START_TIME:
@@ -114,6 +121,16 @@ async def get_web_interface(require_password: bool, distribution: octobot.enums.
     finally:
         if web_interface_instance is not None:
             await web_interface_instance.stop()
+        if server_thread is not None:
+            await asyncio.to_thread(server_thread.join, 5)
+            if server_thread.is_alive():
+                raise RuntimeError("Web interface worker did not stop within 5 seconds")
+        if bot is not None:
+            await bot.automation.stop()
+            await bot.community_auth.stop()
+            bot.task_manager.executors.shutdown(wait=True)
+            bot.octobot_api.clear()
+        interfaces.AbstractInterface.bot_id = previous_bot_id
 
 
 async def check_page_no_login_redirect(url, session):
@@ -167,7 +184,9 @@ def _force_validate_on_submit(*_):
 async def login_user_on_session(session):
     login_data = {
         "password": PASSWORD,
-        "remember_me": False
+        # An unchecked HTML BooleanField is empty, rather than the truthy
+        # "False" string produced by encoding a Python boolean as form data.
+        "remember_me": ""
     }
     with mock.patch.object(octobot_authentication.LoginForm, "validate_on_submit", new=_force_validate_on_submit):
         async with session.post(f"http://localhost:{PORT}/login",

@@ -119,7 +119,7 @@ class Kucoin(exchanges.RestExchange):
     SUPPORTED_ELEMENTS = {
         trading_enums.ExchangeTypes.FUTURE.value: {
             # order that should be self-managed by OctoBot
-            trading_enums.ExchangeSupportedElements.UNSUPPORTED_ORDERS.value: [
+            "unsupported_orders": [
                 # trading_enums.TraderOrderType.STOP_LOSS,    # supported on futures
                 trading_enums.TraderOrderType.STOP_LOSS_LIMIT,
                 trading_enums.TraderOrderType.TAKE_PROFIT,  # supported
@@ -128,11 +128,11 @@ class Kucoin(exchanges.RestExchange):
                 trading_enums.TraderOrderType.TRAILING_STOP_LIMIT
             ],
             # order that can be bundled together to create them all in one request
-            trading_enums.ExchangeSupportedElements.SUPPORTED_BUNDLED_ORDERS.value: {},
+            "supported_bundled_orders": {},
         },
         trading_enums.ExchangeTypes.SPOT.value: {
             # order that should be self-managed by OctoBot
-            trading_enums.ExchangeSupportedElements.UNSUPPORTED_ORDERS.value: [
+            "unsupported_orders": [
                 # trading_enums.TraderOrderType.STOP_LOSS,    # supported on spot
                 trading_enums.TraderOrderType.STOP_LOSS_LIMIT,
                 trading_enums.TraderOrderType.TAKE_PROFIT,
@@ -141,7 +141,7 @@ class Kucoin(exchanges.RestExchange):
                 trading_enums.TraderOrderType.TRAILING_STOP_LIMIT
             ],
             # order that can be bundled together to create them all in one request
-            trading_enums.ExchangeSupportedElements.SUPPORTED_BUNDLED_ORDERS.value: {},
+            "supported_bundled_orders": {},
         }
     }
     # text content of errors due to api key permissions issues

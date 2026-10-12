@@ -460,10 +460,15 @@ async def test_signal_callback(tools):
 
         # future exchange: call set_leverage
         exchange_manager.is_future = True
+        # Current contracts require an actual settlement currency in the symbol.
+        # Reuse the fixture's real mark price for that genuine perpetual contract.
+        mark_price = await trading_personal_data.get_up_to_date_price(exchange_manager, symbol)
+        symbol = mode.symbol = context.symbol = "BTC/USDT:USDT"
+        trading_api.force_set_mark_price(exchange_manager, symbol, mark_price)
         trading_api.load_pair_contract(
             exchange_manager,
             trading_api.create_default_future_contract(
-                "BTC/USDT", decimal.Decimal(4), trading_enums.FutureContractType.LINEAR_PERPETUAL,
+                symbol, decimal.Decimal(4), trading_enums.FutureContractType.LINEAR_PERPETUAL,
                 trading_constants.DEFAULT_SYMBOL_POSITION_MODE
             ).to_dict()
         )

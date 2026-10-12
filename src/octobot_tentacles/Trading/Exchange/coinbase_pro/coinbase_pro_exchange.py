@@ -27,6 +27,11 @@ class CoinbasePro(exchanges.RestExchange):
     def get_name(cls):
         return 'coinbasepro'
 
+    @classmethod
+    def get_rest_name(cls, exchange_manager):
+        # CCXT retains the Exchange API under its current name.
+        return 'coinbaseexchange'
+
     def get_adapter_class(self):
         return CoinbaseProCCXTAdapter
 

@@ -361,7 +361,7 @@ class hollaex(exchanges.RestExchange):
     SUPPORTED_ELEMENTS = {
         trading_enums.ExchangeTypes.FUTURE.value: {
             # order that should be self-managed by OctoBot
-            trading_enums.ExchangeSupportedElements.UNSUPPORTED_ORDERS.value: [
+            "unsupported_orders": [
                 trading_enums.TraderOrderType.STOP_LOSS,
                 trading_enums.TraderOrderType.STOP_LOSS_LIMIT,
                 trading_enums.TraderOrderType.TAKE_PROFIT,
@@ -371,11 +371,11 @@ class hollaex(exchanges.RestExchange):
             ],
             # order that can be bundled together to create them all in one request
             # not supported or need custom mechanics with batch orders
-            trading_enums.ExchangeSupportedElements.SUPPORTED_BUNDLED_ORDERS.value: {},
+            "supported_bundled_orders": {},
         },
         trading_enums.ExchangeTypes.SPOT.value: {
             # order that should be self-managed by OctoBot
-            trading_enums.ExchangeSupportedElements.UNSUPPORTED_ORDERS.value: [
+            "unsupported_orders": [
                 trading_enums.TraderOrderType.STOP_LOSS,    # still broken ccxt 4.5.8: stop param is ignored by exchange because it's sent as a string instead of float. Converting it to flaat fails the signature
                 trading_enums.TraderOrderType.STOP_LOSS_LIMIT,
                 trading_enums.TraderOrderType.TAKE_PROFIT,
@@ -384,7 +384,7 @@ class hollaex(exchanges.RestExchange):
                 trading_enums.TraderOrderType.TRAILING_STOP_LIMIT
             ],
             # order that can be bundled together to create them all in one request
-            trading_enums.ExchangeSupportedElements.SUPPORTED_BUNDLED_ORDERS.value: {},
+            "supported_bundled_orders": {},
         }
     }
 

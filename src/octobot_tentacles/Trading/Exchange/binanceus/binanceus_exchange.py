@@ -25,7 +25,7 @@ class BinanceUS(binance_tentacle.Binance):
     SUPPORTED_ELEMENTS = {
         trading_enums.ExchangeTypes.FUTURE.value: {
             # order that should be self-managed by OctoBot
-            trading_enums.ExchangeSupportedElements.UNSUPPORTED_ORDERS.value: [
+            "unsupported_orders": [
                 trading_enums.TraderOrderType.STOP_LOSS,
                 trading_enums.TraderOrderType.STOP_LOSS_LIMIT,
                 trading_enums.TraderOrderType.TAKE_PROFIT,
@@ -35,11 +35,11 @@ class BinanceUS(binance_tentacle.Binance):
             ],
             # order that can be bundled together to create them all in one request
             # not supported or need custom mechanics with batch orders
-            trading_enums.ExchangeSupportedElements.SUPPORTED_BUNDLED_ORDERS.value: {},
+            "supported_bundled_orders": {},
         },
         trading_enums.ExchangeTypes.SPOT.value: {
             # order that should be self-managed by OctoBot
-            trading_enums.ExchangeSupportedElements.UNSUPPORTED_ORDERS.value: [
+            "unsupported_orders": [
                 trading_enums.TraderOrderType.STOP_LOSS,    # unsupported on binance.us, only stop limit orders are supported https://docs.binance.us/#create-new-order-trade
                 trading_enums.TraderOrderType.STOP_LOSS_LIMIT,
                 trading_enums.TraderOrderType.TAKE_PROFIT,
@@ -48,7 +48,7 @@ class BinanceUS(binance_tentacle.Binance):
                 trading_enums.TraderOrderType.TRAILING_STOP_LIMIT
             ],
             # order that can be bundled together to create them all in one request
-            trading_enums.ExchangeSupportedElements.SUPPORTED_BUNDLED_ORDERS.value: {},
+            "supported_bundled_orders": {},
         }
     }
 

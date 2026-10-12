@@ -56,7 +56,7 @@ async def create_minimalist_unconnected_octobot():
 async def get_bot_interface():
     bot_interface = interfaces.AbstractBotInterface({})
     interfaces.AbstractInterface.initialize_global_project_data(
-        (await create_minimalist_unconnected_octobot()).octobot_api,
+        (await create_minimalist_unconnected_octobot()).octobot_api.get_bot_id(),
         "octobot",
         "x.y.z-alpha42")
     yield bot_interface

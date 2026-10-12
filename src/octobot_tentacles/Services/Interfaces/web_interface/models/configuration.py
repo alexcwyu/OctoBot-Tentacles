@@ -58,7 +58,7 @@ import octobot.community as community
 import octobot.constants as octobot_constants
 import octobot.enums as octobot_enums
 import octobot.configuration_manager as configuration_manager
-import octobot.databases_util as octobot_databases_util
+import octobot_commons.optimization_campaign as optimization_campaign
 import tentacles.Services.Interfaces.web_interface.constants as constants
 import tentacles.Services.Interfaces.web_interface.models as models
 import tentacles.Services.Interfaces.web_interface.plugins as web_plugins
@@ -112,10 +112,9 @@ MERGED_CCXT_EXCHANGES = {
     for result, merged in (
         (ccxt.async_support.kucoin, (ccxt.async_support.kucoinfutures, )),
         (ccxt.async_support.binance, (ccxt.async_support.binanceusdm, ccxt.async_support.binancecoinm)),
-        (ccxt.async_support.htx, (ccxt.async_support.huobi, )),
     )
 }
-REMOVED_CCXT_EXCHANGES = set().union(*(set(v) for v in MERGED_CCXT_EXCHANGES.values()))
+REMOVED_CCXT_EXCHANGES = {"huobi"}.union(*(set(v) for v in MERGED_CCXT_EXCHANGES.values()))
 _FULL_EXCHANGE_LIST: typing.List[str] = None # type: ignore # should be accessed through get_or_init_FULL_EXCHANGE_LIST
 AUTO_FILLED_EXCHANGES = None
 
@@ -731,9 +730,17 @@ async def _reset_profile_portfolio_history(current_edited_config):
         trading_api.get_exchange_name(exchange_manager): exchange_manager
         for exchange_manager in trading_api.get_exchange_managers_from_exchange_ids(trading_api.get_exchange_ids())
     }
-    run_dbs_identifier = octobot_databases_util.get_run_databases_identifier(
-        current_edited_config.config,
-        interfaces_util.get_edited_tentacles_config()
+    tentacles_config = interfaces_util.get_edited_tentacles_config()
+    try:
+        trading_mode = trading_api.get_activated_trading_mode(tentacles_config)
+    except commons_errors.ConfigTradingError:
+        trading_mode = commons_constants.DEFAULT_STORAGE_TRADING_MODE
+    run_dbs_identifier = commons_databases.RunDatabasesIdentifier(
+        trading_mode,
+        optimization_campaign.OptimizationCampaign.get_campaign_name(tentacles_config),
+        backtesting_id=current_edited_config.config.get(commons_constants.CONFIG_BACKTESTING_ID),
+        optimizer_id=current_edited_config.config.get(commons_constants.CONFIG_OPTIMIZER_ID),
+        live_id=trading_api.get_current_bot_live_id(current_edited_config.config),
     )
     enabled_exchanges = trading_api.get_enabled_exchanges_names(current_edited_config.config)
     _get_logger().info(f"Resetting simulated portfolio history for {enabled_exchanges}.")
@@ -832,7 +839,11 @@ def activate_beta_env(enable_beta):
 
 
 def get_metrics_enabled():
-    return interfaces_util.get_edited_config(dict_only=False).get_metrics_enabled()
+    # Metrics preferences remain part of this legacy interface's stored config;
+    # the current host Configuration no longer provides their old convenience method.
+    return bool(interfaces_util.get_edited_config(dict_only=True).get("metrics", {}).get(
+        commons_constants.CONFIG_ENABLED_OPTION, True
+    ))
 
 
 def get_beta_env_enabled_in_config():
