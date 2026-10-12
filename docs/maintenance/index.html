@@ -470,6 +470,12 @@
 <td><code>&lt;workspace&gt;/OctoBot-Tentacles/.venv/bin/python -m pytest src/octobot_tentacles</code></td>
 </tr>
 <tr>
+<td>user-authorized-two-live-skips</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3.41s</td>
+<td><code>uv run --frozen --all-extras python -m pytest --rootdir=. -vv -rs tentacles/Trading/Exchange/ascendex_websocket_feed/tests/test_unauthenticated_mocked_feeds.py tentacles/Trading/Exchange/kraken_websocket_feed/tests/test_unauthenticated_mocked_feeds.py</code></td>
+</tr>
+<tr>
 <td>websocket-lifecycle-diagnostic-tests-2</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">86.86s</td>
@@ -494,5 +500,4 @@
 <td><code>.venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot-Tentacles');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['tentacles/Trading/Exchange/binance_websocket_feed/tests','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles','--timeout=90','--tb=short']))</code></td>
 </tr>
 </tbody>
-</table></main>
-</body></html>
+</table></main></body></html>

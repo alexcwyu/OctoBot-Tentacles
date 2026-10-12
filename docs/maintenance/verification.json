@@ -1384,6 +1384,37 @@
   },
   {
     "command": [
+      "uv",
+      "run",
+      "--frozen",
+      "--all-extras",
+      "python",
+      "-m",
+      "pytest",
+      "--rootdir=.",
+      "-vv",
+      "-rs",
+      "tentacles/Trading/Exchange/ascendex_websocket_feed/tests/test_unauthenticated_mocked_feeds.py",
+      "tentacles/Trading/Exchange/kraken_websocket_feed/tests/test_unauthenticated_mocked_feeds.py"
+    ],
+    "cwd": "<workspace>/OctoBot-Tentacles",
+    "exit_code": 0,
+    "seconds": 3.41,
+    "check": "user-authorized-two-live-skips",
+    "started": 1791831235.705846,
+    "source_snapshot": {
+      "head": "ee6581a572b7ba1c73bd224aedb0237d8207a68f",
+      "tracked_source_diff_sha256": "f4d81e0a0dd3455e5413ccfce2325d3259272517dc45e29fdf4f91bf6f81bf92",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "OctoBot-Tentacles-user-authorized-two-live-skips.json",
+    "original_log": "OctoBot-Tentacles-user-authorized-two-live-skips.log",
+    "log_sha256": "a83e48d04d4d7616d643b71143736d6b6a06a93292daeb5303c8c72e1a8ee85f",
+    "log_bytes": 1713,
+    "outcome_lines": []
+  },
+  {
+    "command": [
       ".venv/bin/python",
       "-c",
       "import os,sys,pytest;sys.path.insert(0,'<workspace>/OctoBot');os.chdir('<workspace>/OctoBot-Tentacles');sys.path.insert(0,'<workspace>/OctoBot-Tentacles');raise SystemExit(pytest.main(['tentacles/Trading/Exchange/binance_websocket_feed/tests','--rootdir=<workspace>/OctoBot-Tentacles','--timeout=300','--tb=short']))"

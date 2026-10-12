@@ -1,5 +1,8 @@
 # OctoBot-Tentacles maintenance validation
 
+
+Current user-authorized test policy: The user explicitly disabled the AscendEX and Kraken `test_start_spot_websocket` cases with pytest skip markers. Original test bodies, channels and financial assertions remain unchanged. The retained complete-suite baseline is 449 passes and two failures; those two failures are now intentionally skipped, with exact selected-case verification recorded separately.
+
 Selected runtime: **managed Python 3.15.0**, uv **0.13.0**, `hatchling.build`; source commit `2ae9fdc7288f64bb9f1881bec0e6b43e92152a3e`. The actual latest licensed Tulipy source builds, both source distribution and wheel build, and strict source compilation pass.
 
 ## Complete existing-suite result
@@ -235,3 +238,5 @@ This is the selected environment after locked synchronization; isolated wheel bu
 | yarl | 1.25.1 |
 
 See [architecture](ayu-develop.md) for source-linked component/sequence/workflow diagrams and [development](development.md) for reproducible uv commands.
+
+Authorized-skip verification completed successfully: 2 selected original case(s) skipped, zero failures, 3.41 wall seconds. Exact command and terminal result are included in `maintenance/verification.json`; the earlier full-suite counts remain historical baseline evidence. Independent review verified the original test bodies and assertions are unchanged.
