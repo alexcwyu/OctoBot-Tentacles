@@ -27,6 +27,7 @@ from ...kraken_websocket_feed import KrakenCCXTWebsocketConnector
 pytestmark = pytest.mark.asyncio
 
 
+@pytest.mark.skip(reason="Disabled by user: live closed-candle arrival outside the original observation window.")
 async def test_start_spot_websocket():
     config = commons_tests.load_test_config()
     async with websocket_test_tools.ws_exchange_manager(config, KrakenCCXTWebsocketConnector.get_name()) \

@@ -27,6 +27,7 @@ from ...ascendex_websocket_feed import AscendexCCXTWebsocketConnector
 pytestmark = pytest.mark.asyncio
 
 
+@pytest.mark.skip(reason="Disabled by user: retired SDK connector and inaccessible live endpoint.")
 async def test_start_spot_websocket():
     config = commons_tests.load_test_config()
     async with websocket_test_tools.ws_exchange_manager(config, AscendexCCXTWebsocketConnector.get_name()) \
