@@ -1,23 +1,8 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OctoBot-Tentacles: portable verification records</title><style>
-:root{color-scheme:light dark;--bg:#f6f8fa;--paper:#fff;--fg:#182332;--muted:#526274;--line:#d9e0e7;--accent:#1769aa}
-@media(prefers-color-scheme:dark){:root{--bg:#111820;--paper:#192330;--fg:#e6edf3;--muted:#a0b3c5;--line:#344354;--accent:#71b7ee}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 system-ui,-apple-system,sans-serif}
-header{border-bottom:1px solid var(--line);padding:16px max(24px,calc((100vw - 1120px)/2));background:var(--paper);font-size:14px}
-main{max-width:1120px;margin:32px auto;padding:40px 48px;background:var(--paper);border:1px solid var(--line);border-radius:12px}
-h1,h2,h3,h4{line-height:1.3;scroll-margin-top:24px}h1{font-size:2.1rem}h2{margin-top:2.5em;border-bottom:1px solid var(--line);padding-bottom:.35em}h3{margin-top:1.8em}
-a{color:var(--accent);text-underline-offset:3px}code{font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--bg);border-radius:4px;padding:2px 5px}pre{overflow:auto;border:1px solid var(--line);background:var(--bg);padding:16px;border-radius:7px}pre code{padding:0;background:none}
-table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;font-size:14px}th,td{border:1px solid var(--line);padding:9px 12px;text-align:left}th{background:var(--bg)}blockquote{border-left:4px solid var(--accent);margin:16px 0;padding:4px 20px;color:var(--muted)}
-.diagram{overflow-x:auto;margin:24px 0;padding:20px;border:1px solid var(--line);border-radius:8px;background:#fff;color:#182332}.mermaid{border:0;background:none;text-align:center}.mermaid svg{height:auto;max-width:100%}details{font-size:13px;color:#526274}.headerlink{margin-left:.4em;font-size:.7em;text-decoration:none;color:var(--muted)}
-main{min-width:0;overflow-wrap:anywhere}table,pre{max-width:100%}.diagram svg{display:block}
-th,td{min-width:120px;overflow-wrap:normal}
-@media(max-width:740px){main{margin:0;padding:24px 18px;border:0;border-radius:0}h1{font-size:1.7rem}.diagram{padding:8px}}
-@media print{header,details,.headerlink{display:none}body,main{background:#fff;color:#000;border:0;margin:0;padding:0}a{color:#000}.diagram,pre{break-inside:avoid}}
-</style></head><body><header>Engineering documentation · <a href="index.md">Markdown source</a></header><main><h1 id="octobot-tentacles-portable-verification-records">OctoBot-Tentacles: portable verification records<a class="headerlink" href="#octobot-tentacles-portable-verification-records" title="Permanent link">&para;</a></h1>
-<p>Full raw logs are retained in the workspace maintenance evidence, not distributed here. Hashes identify those original logs. A successful build or selected test subset does not imply a full test-suite pass. Commands containing <workspace> describe the original execution environment.</p>
-<p><a href="verification.json">Machine-readable records</a> · <a href="../validation.md">Repository validation summary</a></p>
-<h2 id="executed-commands">Executed commands<a class="headerlink" href="#executed-commands" title="Permanent link">&para;</a></h2>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OctoBot-Tentacles: portable verification records</title><style>html{color-scheme:light dark}body{margin:0;background:#f5f7fa;color:#172333;font:16px/1.7 system-ui,sans-serif}main{max-width:1120px;margin:28px auto;background:white;padding:40px;border:1px solid #dbe2ea;border-radius:10px}h1,h2,h3{line-height:1.25}h2{margin-top:2em;border-bottom:1px solid #dbe2ea;padding-bottom:.4em}a{color:#1769aa}pre{overflow:auto;padding:16px;background:#f5f7fa;border:1px solid #dbe2ea;border-radius:6px}code{font:14px/1.6 ui-monospace,monospace}table{border-collapse:collapse;display:block;overflow:auto}th,td{border:1px solid #dbe2ea;padding:8px 12px;text-align:left;vertical-align:top}blockquote{margin-left:0;border-left:4px solid #1769aa;padding-left:18px}@media(max-width:700px){main{margin:8px;padding:18px}body{font-size:15px}}@media(prefers-color-scheme:dark){body{background:#111820;color:#e7edf5}main{background:#192330;border-color:#344354}pre{background:#111820}a{color:#78b9ef}th,td,h2,pre{border-color:#344354}}@media print{main{margin:0;border:0;padding:0}a{color:inherit}pre,table{overflow:visible}}</style></head><body><main><h1 id="octobot-tentacles-portable-verification-records">OctoBot-Tentacles: portable verification records</h1>
+<p>These records retain exact commands, outcomes, original-log hashes and available source snapshots. Failed, interrupted and earlier exploratory commands remain visible. A later focused pass proves only its own scope.</p>
+<p><a href="verification.json">Machine-readable records</a> · <a href="../validation.md">Validation</a> · <a href="../ayu-develop.md">Engineering guide</a></p>
+<p>Original logs remain in the workspace maintenance evidence. Tracked source hashes exclude untracked additions and later edits, as stated in each captured snapshot.</p>
 <table>
 <thead>
 <tr>
@@ -25,163 +10,488 @@ th,td{min-width:120px;overflow-wrap:normal}
 <th style="text-align: right;">Exit</th>
 <th style="text-align: right;">Duration</th>
 <th>Command</th>
-<th>Outcomes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>archive-install</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">5.34s</td>
-<td><code>&lt;workspace&gt;/OctoBot/.venv/bin/OctoBot tentacles --install --location &lt;workspace&gt;/OctoBot-Tentacles/dist/any_platform.zip --all</code></td>
-<td>See exit status; no test-count assertion.</td>
+<td>api-collection-check</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">7.85s</td>
+<td><code>.venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot-Tentacles');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['tentacles','--continue-on-collection-errors','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles','--collect-only','--tb=short']))</code></td>
 </tr>
 <tr>
 <td>archive-install-2</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5.88s</td>
 <td><code>&lt;workspace&gt;/OctoBot/.venv/bin/OctoBot tentacles --install --location &lt;workspace&gt;/OctoBot-Tentacles/dist/any_platform.zip --all</code></td>
-<td>See exit status; no test-count assertion.</td>
 </tr>
 <tr>
-<td>archive-pack</td>
+<td>archive-install</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.05s</td>
-<td><code>../OctoBot/.venv/bin/python -m octobot tentacles -d src/octobot_tentacles -m metadata.yaml -p &lt;workspace&gt;/OctoBot-Tentacles/dist/tentacles-source.zip</code></td>
-<td>See exit status; no test-count assertion.</td>
+<td style="text-align: right;">5.34s</td>
+<td><code>&lt;workspace&gt;/OctoBot/.venv/bin/OctoBot tentacles --install --location &lt;workspace&gt;/OctoBot-Tentacles/dist/any_platform.zip --all</code></td>
 </tr>
 <tr>
 <td>archive-pack-2</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">4.93s</td>
 <td><code>&lt;workspace&gt;/OctoBot/.venv/bin/OctoBot tentacles -d src/octobot_tentacles -m metadata.yaml -p &lt;workspace&gt;/OctoBot-Tentacles/dist/tentacles-source.zip</code></td>
-<td>See exit status; no test-count assertion.</td>
+</tr>
+<tr>
+<td>archive-pack</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.05s</td>
+<td><code>../OctoBot/.venv/bin/python -m octobot tentacles -d src/octobot_tentacles -m metadata.yaml -p &lt;workspace&gt;/OctoBot-Tentacles/dist/tentacles-source.zip</code></td>
+</tr>
+<tr>
+<td>bounded-current-api-full-tests</td>
+<td style="text-align: right;">-15</td>
+<td style="text-align: right;">901.69s</td>
+<td><code>.venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['&lt;workspace&gt;/OctoBot-Tentacles/tentacles','--continue-on-collection-errors','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles','--timeout=60','--tb=short']))</code></td>
 </tr>
 <tr>
 <td>build</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">3.43s</td>
 <td><code>uv build --python 3.15</code></td>
-<td>Successfully built dist/octobot_tentacles-0.1.0.tar.gz<br>Successfully built dist/octobot_tentacles-0.1.0-py3-none-any.whl</td>
 </tr>
 <tr>
 <td>compile</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1.25s</td>
 <td><code>&lt;workspace&gt;/OctoBot-Tentacles/.venv/bin/python -m compileall -q src</code></td>
-<td>See exit status; no test-count assertion.</td>
+</tr>
+<tr>
+<td>converted-mode-focused-tests-2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">20.71s</td>
+<td><code>.venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot-Tentacles');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['tentacles/Trading/Mode/dca_trading_mode/tests','tentacles/Trading/Mode/index_trading_mode/tests','tentacles/Trading/Mode/grid_trading_mode/tests','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles','--tb=short']))</code></td>
+</tr>
+<tr>
+<td>converted-mode-focused-tests</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">31.69s</td>
+<td><code>.venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot-Tentacles');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['tentacles/Trading/Mode/dca_trading_mode/tests','tentacles/Trading/Mode/index_trading_mode/tests','tentacles/Trading/Mode/grid_trading_mode/tests','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles','--tb=short']))</code></td>
+</tr>
+<tr>
+<td>current-api-archive-install</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6.44s</td>
+<td><code>../OctoBot/.venv/bin/OctoBot tentacles --install --location output/dist/any_platform.zip --all</code></td>
+</tr>
+<tr>
+<td>current-api-archive-pack</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">7.23s</td>
+<td><code>../OctoBot/.venv/bin/OctoBot tentacles -d src/octobot_tentacles -m metadata.yaml -p dist/current-host.zip</code></td>
+</tr>
+<tr>
+<td>current-api-export-10</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4.63s</td>
+<td><code>../OctoBot/.venv/bin/OctoBot tentacles -d src/octobot_tentacles -m metadata.yaml -p dist/current-host.zip</code></td>
+</tr>
+<tr>
+<td>current-api-export-11</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">22.94s</td>
+<td><code>../OctoBot/.venv/bin/OctoBot tentacles -d src/octobot_tentacles -m metadata.yaml -p dist/current-host.zip</code></td>
+</tr>
+<tr>
+<td>current-api-export-2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5.17s</td>
+<td><code>../OctoBot/.venv/bin/OctoBot tentacles -d src/octobot_tentacles -m metadata.yaml -p dist/current-host.zip</code></td>
+</tr>
+<tr>
+<td>current-api-export-3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4.94s</td>
+<td><code>../OctoBot/.venv/bin/OctoBot tentacles -d src/octobot_tentacles -m metadata.yaml -p dist/current-host.zip</code></td>
+</tr>
+<tr>
+<td>current-api-export-4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5.37s</td>
+<td><code>../OctoBot/.venv/bin/OctoBot tentacles -d src/octobot_tentacles -m metadata.yaml -p dist/current-host.zip</code></td>
+</tr>
+<tr>
+<td>current-api-export-5</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3.69s</td>
+<td><code>../OctoBot/.venv/bin/OctoBot tentacles -d src/octobot_tentacles -m metadata.yaml -p dist/current-host.zip</code></td>
+</tr>
+<tr>
+<td>current-api-export-6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3.4s</td>
+<td><code>../OctoBot/.venv/bin/OctoBot tentacles -d src/octobot_tentacles -m metadata.yaml -p dist/current-host.zip</code></td>
+</tr>
+<tr>
+<td>current-api-export-7</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5.07s</td>
+<td><code>../OctoBot/.venv/bin/OctoBot tentacles -d src/octobot_tentacles -m metadata.yaml -p dist/current-host.zip</code></td>
+</tr>
+<tr>
+<td>current-api-export-8</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4.82s</td>
+<td><code>../OctoBot/.venv/bin/OctoBot tentacles -d src/octobot_tentacles -m metadata.yaml -p dist/current-host.zip</code></td>
+</tr>
+<tr>
+<td>current-api-export-9</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5.43s</td>
+<td><code>../OctoBot/.venv/bin/OctoBot tentacles -d src/octobot_tentacles -m metadata.yaml -p dist/current-host.zip</code></td>
+</tr>
+<tr>
+<td>current-api-export</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5.97s</td>
+<td><code>../OctoBot/.venv/bin/OctoBot tentacles -d src/octobot_tentacles -m metadata.yaml -p dist/current-host.zip</code></td>
+</tr>
+<tr>
+<td>current-api-full-tests-2</td>
+<td style="text-align: right;">-15</td>
+<td style="text-align: right;">914.82s</td>
+<td><code>.venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot-Tentacles');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['tentacles','--continue-on-collection-errors','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles','--timeout=90','--tb=short']))</code></td>
+</tr>
+<tr>
+<td>current-api-full-tests</td>
+<td style="text-align: right;">-15</td>
+<td style="text-align: right;">784.99s</td>
+<td><code>.venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['&lt;workspace&gt;/OctoBot-Tentacles/tentacles','--continue-on-collection-errors','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles']))</code></td>
+</tr>
+<tr>
+<td>current-api-install-10</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">18.07s</td>
+<td><code>env ALLOW_UNSIGNED_TENTACLES=true ../OctoBot/.venv/bin/OctoBot tentacles --install --location output/dist/any_platform.zip --all</code></td>
+</tr>
+<tr>
+<td>current-api-install-2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3.7s</td>
+<td><code>env ALLOW_UNSIGNED_TENTACLES=true ../OctoBot/.venv/bin/OctoBot tentacles --install --location output/dist/any_platform.zip --all</code></td>
+</tr>
+<tr>
+<td>current-api-install-3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4.05s</td>
+<td><code>env ALLOW_UNSIGNED_TENTACLES=true ../OctoBot/.venv/bin/OctoBot tentacles --install --location output/dist/any_platform.zip --all</code></td>
+</tr>
+<tr>
+<td>current-api-install-4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3.56s</td>
+<td><code>env ALLOW_UNSIGNED_TENTACLES=true ../OctoBot/.venv/bin/OctoBot tentacles --install --location output/dist/any_platform.zip --all</code></td>
+</tr>
+<tr>
+<td>current-api-install-5</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3.74s</td>
+<td><code>env ALLOW_UNSIGNED_TENTACLES=true ../OctoBot/.venv/bin/OctoBot tentacles --install --location output/dist/any_platform.zip --all</code></td>
+</tr>
+<tr>
+<td>current-api-install-6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5.23s</td>
+<td><code>env ALLOW_UNSIGNED_TENTACLES=true ../OctoBot/.venv/bin/OctoBot tentacles --install --location output/dist/any_platform.zip --all</code></td>
+</tr>
+<tr>
+<td>current-api-install-7</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3.56s</td>
+<td><code>env ALLOW_UNSIGNED_TENTACLES=true ../OctoBot/.venv/bin/OctoBot tentacles --install --location output/dist/any_platform.zip --all</code></td>
+</tr>
+<tr>
+<td>current-api-install-8</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4.8s</td>
+<td><code>env ALLOW_UNSIGNED_TENTACLES=true ../OctoBot/.venv/bin/OctoBot tentacles --install --location output/dist/any_platform.zip --all</code></td>
+</tr>
+<tr>
+<td>current-api-install-9</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4.17s</td>
+<td><code>env ALLOW_UNSIGNED_TENTACLES=true ../OctoBot/.venv/bin/OctoBot tentacles --install --location output/dist/any_platform.zip --all</code></td>
+</tr>
+<tr>
+<td>current-api-install</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5.21s</td>
+<td><code>env ALLOW_UNSIGNED_TENTACLES=true ../OctoBot/.venv/bin/OctoBot tentacles --install --location output/dist/any_platform.zip --all</code></td>
+</tr>
+<tr>
+<td>current-exchange-lock</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.81s</td>
+<td><code>uv lock --upgrade</code></td>
+</tr>
+<tr>
+<td>current-exchange-sync</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.75s</td>
+<td><code>uv sync --frozen --all-extras --python 3.14.8</code></td>
+</tr>
+<tr>
+<td>current-host-exchange-focused-tests</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">53.8s</td>
+<td><code>env BOTS_REPO=tentacles .venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'/tmp');sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot-Tentacles');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['tentacles/Evaluator/Strategies','tentacles/Meta/Keywords/scripting_library/tests/orders/order_types/test_multiple_orders_creation.py','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles','--tb=short','-p','bots_test_observer']))</code></td>
+</tr>
+<tr>
+<td>current-observed-existing-tests-2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">297.96s</td>
+<td><code>env BOTS_REPO=tentacles .venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'/tmp');sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot-Tentacles');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['tentacles','--continue-on-collection-errors','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles','--timeout=300','--tb=short','-p','bots_test_observer','-o','faulthandler_timeout=120']))</code></td>
+</tr>
+<tr>
+<td>current-observed-existing-tests</td>
+<td style="text-align: right;">-15</td>
+<td style="text-align: right;">172.82s</td>
+<td><code>env BOTS_REPO=tentacles .venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'/tmp');sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot-Tentacles');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['tentacles','--continue-on-collection-errors','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles','--timeout=300','--tb=short','-p','bots_test_observer','-o','faulthandler_timeout=120']))</code></td>
 </tr>
 <tr>
 <td>current-sync</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5.27s</td>
 <td><code>uv sync --all-extras --python 3.14</code></td>
-<td>See exit status; no test-count assertion.</td>
 </tr>
 <tr>
-<td>final-build</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">8.86s</td>
-<td><code>uv build --python 3.14.8</code></td>
-<td>Successfully built dist/octobot_tentacles-0.1.0.tar.gz<br>Successfully built dist/octobot_tentacles-0.1.0-py3-none-any.whl</td>
+<td>current-web-focused-tests-2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">53.03s</td>
+<td><code>.venv/bin/python -m pytest tentacles/Services/Interfaces/web_interface/tests tentacles/Trading/Mode/trading_view_signals_trading_mode/tests tentacles/Trading/Mode/dip_analyser_trading_mode/tests/test_dip_analyser_trading_mode.py tentacles/Meta/Keywords/scripting_library/tests --tb=short</code></td>
+</tr>
+<tr>
+<td>current-web-focused-tests-3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">52.89s</td>
+<td><code>env BOTS_REPO=tentacles .venv/bin/python -c import sys,pytest;sys.path.insert(0,'/tmp');raise SystemExit(pytest.main(['tentacles/Services/Interfaces/web_interface/tests','tentacles/Trading/Mode/trading_view_signals_trading_mode/tests','tentacles/Trading/Mode/dip_analyser_trading_mode/tests/test_dip_analyser_trading_mode.py','tentacles/Meta/Keywords/scripting_library/tests','--tb=short','-p','bots_test_observer']))</code></td>
+</tr>
+<tr>
+<td>current-web-focused-tests-4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">38.84s</td>
+<td><code>env BOTS_REPO=tentacles .venv/bin/python -c import sys,pytest;sys.path.insert(0,'/tmp');raise SystemExit(pytest.main(['tentacles/Services/Interfaces/web_interface/tests','tentacles/Trading/Mode/trading_view_signals_trading_mode/tests','tentacles/Trading/Mode/dip_analyser_trading_mode/tests/test_dip_analyser_trading_mode.py','tentacles/Meta/Keywords/scripting_library/tests','--tb=short','-p','bots_test_observer']))</code></td>
+</tr>
+<tr>
+<td>current-web-focused-tests-5</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">37.67s</td>
+<td><code>env BOTS_REPO=tentacles .venv/bin/python -c import sys,pytest;sys.path.insert(0,'/tmp');raise SystemExit(pytest.main(['tentacles/Services/Interfaces/web_interface/tests','tentacles/Trading/Mode/trading_view_signals_trading_mode/tests','tentacles/Trading/Mode/dip_analyser_trading_mode/tests/test_dip_analyser_trading_mode.py','tentacles/Meta/Keywords/scripting_library/tests','tentacles/Meta/DSL_operators','--tb=short','-p','bots_test_observer']))</code></td>
+</tr>
+<tr>
+<td>current-web-focused-tests-6</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">68.37s</td>
+<td><code>env BOTS_REPO=tentacles .venv/bin/python -c import sys,pytest;sys.path.insert(0,'/tmp');raise SystemExit(pytest.main(['tentacles/Services/Interfaces/web_interface/tests','tentacles/Trading/Mode/trading_view_signals_trading_mode/tests','tentacles/Trading/Mode/dip_analyser_trading_mode/tests/test_dip_analyser_trading_mode.py','tentacles/Meta/Keywords/scripting_library/tests','tentacles/Meta/DSL_operators','--tb=short','-p','bots_test_observer']))</code></td>
+</tr>
+<tr>
+<td>current-web-focused-tests-7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">47.12s</td>
+<td><code>env BOTS_REPO=tentacles .venv/bin/python -c import sys,pytest;sys.path.insert(0,'/tmp');raise SystemExit(pytest.main(['tentacles/Services/Interfaces/web_interface/tests','tentacles/Trading/Mode/trading_view_signals_trading_mode/tests','tentacles/Trading/Mode/dip_analyser_trading_mode/tests/test_dip_analyser_trading_mode.py','tentacles/Meta/Keywords/scripting_library/tests','tentacles/Meta/DSL_operators','--tb=short','-p','bots_test_observer','-o','faulthandler_timeout=60']))</code></td>
+</tr>
+<tr>
+<td>current-web-focused-tests</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5.21s</td>
+<td><code>.venv/bin/python -m pytest tentacles/Services/Interfaces/web_interface/tests --tb=short</code></td>
 </tr>
 <tr>
 <td>final-build-2</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">3.75s</td>
 <td><code>uv build --python 3.14.8</code></td>
-<td>Successfully built dist/octobot_tentacles-0.1.0.tar.gz<br>Successfully built dist/octobot_tentacles-0.1.0-py3-none-any.whl</td>
 </tr>
 <tr>
-<td>final-compile</td>
+<td>final-build</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">1.35s</td>
-<td><code>.venv/bin/python -m compileall -q src</code></td>
-<td>See exit status; no test-count assertion.</td>
+<td style="text-align: right;">8.86s</td>
+<td><code>uv build --python 3.14.8</code></td>
 </tr>
 <tr>
 <td>final-compile-2</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.28s</td>
 <td><code>.venv/bin/python -m compileall -q src</code></td>
-<td>See exit status; no test-count assertion.</td>
 </tr>
 <tr>
-<td>final-lock</td>
+<td>final-compile</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.31s</td>
-<td><code>uv lock --upgrade</code></td>
-<td>See exit status; no test-count assertion.</td>
+<td style="text-align: right;">1.35s</td>
+<td><code>.venv/bin/python -m compileall -q src</code></td>
 </tr>
 <tr>
 <td>final-lock-2</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.28s</td>
 <td><code>uv lock --upgrade</code></td>
-<td>See exit status; no test-count assertion.</td>
 </tr>
 <tr>
-<td>final-sync</td>
+<td>final-lock</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.18s</td>
-<td><code>uv sync --all-extras --frozen --python 3.14.8</code></td>
-<td>See exit status; no test-count assertion.</td>
+<td style="text-align: right;">0.31s</td>
+<td><code>uv lock --upgrade</code></td>
+</tr>
+<tr>
+<td>final-selected-python315-compile</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">Nones</td>
+<td><code>.venv/bin/python -Werror -m compileall -q src conftest.py</code></td>
+</tr>
+<tr>
+<td>final-selected-python315-sync</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">Nones</td>
+<td><code>uv sync --all-extras --frozen --python 3.15.0</code></td>
 </tr>
 <tr>
 <td>final-sync-2</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.49s</td>
 <td><code>uv sync --all-extras --frozen --python 3.14.8</code></td>
-<td>See exit status; no test-count assertion.</td>
+</tr>
+<tr>
+<td>final-sync</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.18s</td>
+<td><code>uv sync --all-extras --frozen --python 3.14.8</code></td>
+</tr>
+<tr>
+<td>host-archive-install</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">11.06s</td>
+<td><code>../OctoBot/.venv/bin/OctoBot tentacles --install --location output/dist/any_platform.zip --all</code></td>
+</tr>
+<tr>
+<td>host-archive-pack</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">9.33s</td>
+<td><code>../OctoBot/.venv/bin/OctoBot tentacles -d src/octobot_tentacles -m metadata.yaml -p dist/current-host.zip</code></td>
+</tr>
+<tr>
+<td>host-complete-deps-lock</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2.98s</td>
+<td><code>uv lock --upgrade</code></td>
+</tr>
+<tr>
+<td>host-complete-deps-sync</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.42s</td>
+<td><code>uv sync --all-extras --dev</code></td>
+</tr>
+<tr>
+<td>host-interface-lock</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2.19s</td>
+<td><code>uv lock --upgrade</code></td>
+</tr>
+<tr>
+<td>host-interface-sync</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.74s</td>
+<td><code>uv sync --all-extras --frozen --python 3.14</code></td>
+</tr>
+<tr>
+<td>host-port-tests-2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">100.85s</td>
+<td><code>.venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['&lt;workspace&gt;/OctoBot-Tentacles/tentacles','--continue-on-collection-errors','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles']))</code></td>
+</tr>
+<tr>
+<td>host-port-tests</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.99s</td>
+<td><code>.venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'&lt;workspace&gt;/OctoBot');import tests.test_utils.config;os.chdir('&lt;workspace&gt;/OctoBot');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['&lt;workspace&gt;/OctoBot-Tentacles/tentacles','--continue-on-collection-errors','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles']))</code></td>
 </tr>
 <tr>
 <td>installed-archive-tests</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">18.28s</td>
 <td><code>&lt;workspace&gt;/OctoBot/.venv/bin/python -c import os,sys,pytest; os.chdir('&lt;workspace&gt;/OctoBot');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['&lt;workspace&gt;/OctoBot-Tentacles/tentacles','--continue-on-collection-errors']))</code></td>
-<td>25 failed, 95 passed, 43 errors in 16.46s</td>
 </tr>
 <tr>
 <td>lock-3.15</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.24s</td>
 <td><code>uv lock --upgrade --python 3.15</code></td>
-<td>See exit status; no test-count assertion.</td>
+</tr>
+<tr>
+<td>final-selected-python315-build</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">Nones</td>
+<td><code>uv build --python 3.15.0</code></td>
+</tr>
+<tr>
+<td>python315-complete-original-suite</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">693.67s</td>
+<td><code>/tmp/octobot-tentacles-strict-fp-python315-control/bin/python -m pytest tentacles --tb=short</code></td>
+</tr>
+<tr>
+<td>scripting-existing-tests</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6.24s</td>
+<td><code>env BOTS_REPO=tentacles .venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'/tmp');sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot-Tentacles');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['tentacles/Meta/Keywords/scripting_library/tests','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles','--tb=short','-p','bots_test_observer']))</code></td>
 </tr>
 <tr>
 <td>sync-3.15</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.61s</td>
 <td><code>uv sync --all-extras --python 3.15</code></td>
-<td>See exit status; no test-count assertion.</td>
-</tr>
-<tr>
-<td>tests</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">4.01s</td>
-<td><code>&lt;workspace&gt;/OctoBot-Tentacles/.venv/bin/python -m pytest src/octobot_tentacles</code></td>
-<td>See exit status; no test-count assertion.</td>
 </tr>
 <tr>
 <td>tests-2</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">30.72s</td>
 <td><code>.venv/bin/python -m pytest src/octobot_tentacles</code></td>
-<td>See exit status; no test-count assertion.</td>
 </tr>
 <tr>
 <td>tests-3</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">20.43s</td>
 <td><code>.venv/bin/python -m pytest src/octobot_tentacles</code></td>
-<td>See exit status; no test-count assertion.</td>
 </tr>
 <tr>
 <td>tests-helper-context</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">6.93s</td>
 <td><code>.venv/bin/python -m pytest src/octobot_tentacles --continue-on-collection-errors</code></td>
-<td>8 failed, 42 passed, 51 errors in 5.48s</td>
+</tr>
+<tr>
+<td>tests</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4.01s</td>
+<td><code>&lt;workspace&gt;/OctoBot-Tentacles/.venv/bin/python -m pytest src/octobot_tentacles</code></td>
+</tr>
+<tr>
+<td>websocket-lifecycle-diagnostic-tests-2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">86.86s</td>
+<td><code>.venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot-Tentacles');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['tentacles/Trading/Exchange/binance_websocket_feed/tests','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles','--timeout=300','--tb=short']))</code></td>
+</tr>
+<tr>
+<td>websocket-lifecycle-diagnostic-tests-3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">81.81s</td>
+<td><code>.venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot-Tentacles');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['tentacles/Trading/Exchange/binance_websocket_feed/tests','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles','--timeout=300','--tb=short']))</code></td>
+</tr>
+<tr>
+<td>websocket-lifecycle-diagnostic-tests</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">84.11s</td>
+<td><code>.venv/bin/python -c import os,sys,pytest,faulthandler;faulthandler.dump_traceback_later(45,repeat=True);sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot-Tentacles');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['tentacles/Trading/Exchange/binance_websocket_feed/tests','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles','--timeout=300','--tb=short','-vv','-s']))</code></td>
+</tr>
+<tr>
+<td>websocket-lifecycle-existing-tests</td>
+<td style="text-align: right;">-15</td>
+<td style="text-align: right;">387.18s</td>
+<td><code>.venv/bin/python -c import os,sys,pytest;sys.path.insert(0,'&lt;workspace&gt;/OctoBot');os.chdir('&lt;workspace&gt;/OctoBot-Tentacles');sys.path.insert(0,'&lt;workspace&gt;/OctoBot-Tentacles');raise SystemExit(pytest.main(['tentacles/Trading/Exchange/binance_websocket_feed/tests','--rootdir=&lt;workspace&gt;/OctoBot-Tentacles','--timeout=90','--tb=short']))</code></td>
 </tr>
 </tbody>
 </table></main>

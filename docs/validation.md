@@ -1,5 +1,29 @@
 # OctoBot-Tentacles maintenance validation
 
+Selected runtime: **managed Python 3.15.0**, uv **0.13.0**, `hatchling.build`; source commit `2ae9fdc7288f64bb9f1881bec0e6b43e92152a3e`. The actual latest licensed Tulipy source builds, both source distribution and wheel build, and strict source compilation pass.
+
+## Complete existing-suite result
+
+The complete original suite finished with **449 passed and two failed**, all **451 original cases preserved**, in 693.67 seconds. Exit 1 is retained. All 14 original financial cases and all web/authentication cases pass. No cases, skips, channel assertions or expected profit values were added or weakened.
+
+- **AscendEX:** the latest SDK removed this connector, and the actual public endpoint returned HTTP 403. The [official removal](https://github.com/ccxt/ccxt/pull/29079) is recorded; no different venue substitutes for the original case.
+- **Kraken:** the exact live coverage assertion sometimes receives ticker and kline data without a real closed minute candle in the original 75-second observation window. A real observed candle transition passed; other windows failed. A bounded 120-second diagnostic also produced both outcomes, so extending the timeout is not claimed as a fix. The original symbols, 75-second wait, 150-second case limit and exact channel-set assertion remain intact. No timer-generated closure or synthetic event is used.
+
+## Native numerical and SDK repairs
+
+The [licensed latest Tulipy source](../../OctoBot/vendor/octobot-tulipy/PROVENANCE.md) preserves its C recurrence while disabling fused multiply/add contraction. All 18,860 recorded real RSI arrays match the historical arithmetic bit for bit, and the original 14 financial cases pass using native imports. A fresh selected-main Python 3.15 run passed those 14 cases in 21.88 seconds; no replay hook is part of production or final verification.
+
+The [Kraken adapter](../src/octobot_tentacles/Trading/Exchange/kraken_websocket_feed/kraken_websocket.py) keeps real native subscriptions and parsers, fixes the SDK's timestamp-field filtering on candle arrays, and distinguishes minute/hour subscription keys and actual received intervals. Spot-price producers retain their declared ticker/trade contract, Kucoin retains its explicit producer override, and Coinbase Pro selects the same venue's current Exchange API client. Owned authentication, web and async resources close on their owning loops.
+
+## Reproducible environment and evidence
+
+Use the [development workflow](development.md) to synchronize the explicit adjacent host source, build its licensed indicators with the supported Homebrew c-ares flags, export this repository's actual 134 plugins and install its archive before testing. The generated `tentacles/` tree is the runtime export; a newer host plugin archive does not replace this repository's original cases.
+
+[Portable records](maintenance/verification.json) · [Readable commands](maintenance/index.md) · [Architecture](ayu-develop.md). Earlier migration failures remain below as historical evidence; they do not describe the final runtime or final suite.
+
+## Historical initial migration evidence
+
+
 Recorded 2026-10-12T02:03:36.528406+08:00. Branch `feature/ayu_develop`; upstream default `upstream/master` is merged: **true**. Branch/tag synchronization records are retained in the workspace maintenance evidence. Feature branch publication is coordinated separately.
 
 Runtime: **CPython 3.14.8**, uv **0.13.0**, build backend `hatchling.build`. The local OctoBot full environment requires Tulipy, which has no Python 3.15 distribution; Python 3.14.8 is selected.

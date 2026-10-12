@@ -1,25 +1,24 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OctoBot-Tentacles maintenance validation</title><style>
-:root{color-scheme:light dark;--bg:#f6f8fa;--paper:#fff;--fg:#182332;--muted:#526274;--line:#d9e0e7;--accent:#1769aa}
-@media(prefers-color-scheme:dark){:root{--bg:#111820;--paper:#192330;--fg:#e6edf3;--muted:#a0b3c5;--line:#344354;--accent:#71b7ee}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 system-ui,-apple-system,sans-serif}
-header{border-bottom:1px solid var(--line);padding:16px max(24px,calc((100vw - 1120px)/2));background:var(--paper);font-size:14px}
-main{max-width:1120px;margin:32px auto;padding:40px 48px;background:var(--paper);border:1px solid var(--line);border-radius:12px}
-h1,h2,h3,h4{line-height:1.3;scroll-margin-top:24px}h1{font-size:2.1rem}h2{margin-top:2.5em;border-bottom:1px solid var(--line);padding-bottom:.35em}h3{margin-top:1.8em}
-a{color:var(--accent);text-underline-offset:3px}code{font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--bg);border-radius:4px;padding:2px 5px}pre{overflow:auto;border:1px solid var(--line);background:var(--bg);padding:16px;border-radius:7px}pre code{padding:0;background:none}
-table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;font-size:14px}th,td{border:1px solid var(--line);padding:9px 12px;text-align:left}th{background:var(--bg)}blockquote{border-left:4px solid var(--accent);margin:16px 0;padding:4px 20px;color:var(--muted)}
-.diagram{overflow-x:auto;margin:24px 0;padding:20px;border:1px solid var(--line);border-radius:8px;background:#fff;color:#182332}.mermaid{border:0;background:none;text-align:center}.mermaid svg{height:auto;max-width:100%}details{font-size:13px;color:#526274}.headerlink{margin-left:.4em;font-size:.7em;text-decoration:none;color:var(--muted)}
-main{min-width:0;overflow-wrap:anywhere}table,pre{max-width:100%}.diagram svg{display:block}
-th,td{min-width:120px;overflow-wrap:normal}
-@media(max-width:740px){main{margin:0;padding:24px 18px;border:0;border-radius:0}h1{font-size:1.7rem}.diagram{padding:8px}}
-@media print{header,details,.headerlink{display:none}body,main{background:#fff;color:#000;border:0;margin:0;padding:0}a{color:#000}.diagram,pre{break-inside:avoid}}
-</style></head><body><header>Engineering documentation · <a href="validation.md">Markdown source</a></header><main><h1 id="octobot-tentacles-maintenance-validation">OctoBot-Tentacles maintenance validation<a class="headerlink" href="#octobot-tentacles-maintenance-validation" title="Permanent link">&para;</a></h1>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OctoBot-Tentacles maintenance validation</title><style>html{color-scheme:light dark}body{margin:0;background:#f5f7fa;color:#172333;font:16px/1.7 system-ui,sans-serif}main{max-width:1120px;margin:28px auto;background:white;padding:40px;border:1px solid #dbe2ea;border-radius:10px}h1,h2,h3{line-height:1.25}h2{margin-top:2em;border-bottom:1px solid #dbe2ea;padding-bottom:.4em}a{color:#1769aa}pre{overflow:auto;padding:16px;background:#f5f7fa;border:1px solid #dbe2ea;border-radius:6px}code{font:14px/1.6 ui-monospace,monospace}table{border-collapse:collapse;display:block;overflow:auto}th,td{border:1px solid #dbe2ea;padding:8px 12px;text-align:left;vertical-align:top}blockquote{margin-left:0;border-left:4px solid #1769aa;padding-left:18px}@media(max-width:700px){main{margin:8px;padding:18px}body{font-size:15px}}@media(prefers-color-scheme:dark){body{background:#111820;color:#e7edf5}main{background:#192330;border-color:#344354}pre{background:#111820}a{color:#78b9ef}th,td,h2,pre{border-color:#344354}}@media print{main{margin:0;border:0;padding:0}a{color:inherit}pre,table{overflow:visible}}</style></head><body><main><h1 id="octobot-tentacles-maintenance-validation">OctoBot-Tentacles maintenance validation</h1>
+<p>Selected runtime: <strong>managed Python 3.15.0</strong>, uv <strong>0.13.0</strong>, <code>hatchling.build</code>; source commit <code>2ae9fdc7288f64bb9f1881bec0e6b43e92152a3e</code>. The actual latest licensed Tulipy source builds, both source distribution and wheel build, and strict source compilation pass.</p>
+<h2 id="complete-existing-suite-result">Complete existing-suite result</h2>
+<p>The complete original suite finished with <strong>449 passed and two failed</strong>, all <strong>451 original cases preserved</strong>, in 693.67 seconds. Exit 1 is retained. All 14 original financial cases and all web/authentication cases pass. No cases, skips, channel assertions or expected profit values were added or weakened.</p>
+<ul>
+<li><strong>AscendEX:</strong> the latest SDK removed this connector, and the actual public endpoint returned HTTP 403. The <a href="https://github.com/ccxt/ccxt/pull/29079">official removal</a> is recorded; no different venue substitutes for the original case.</li>
+<li><strong>Kraken:</strong> the exact live coverage assertion sometimes receives ticker and kline data without a real closed minute candle in the original 75-second observation window. A real observed candle transition passed; other windows failed. A bounded 120-second diagnostic also produced both outcomes, so extending the timeout is not claimed as a fix. The original symbols, 75-second wait, 150-second case limit and exact channel-set assertion remain intact. No timer-generated closure or synthetic event is used.</li>
+</ul>
+<h2 id="native-numerical-and-sdk-repairs">Native numerical and SDK repairs</h2>
+<p>The <a href="../../OctoBot/vendor/octobot-tulipy/PROVENANCE.md">licensed latest Tulipy source</a> preserves its C recurrence while disabling fused multiply/add contraction. All 18,860 recorded real RSI arrays match the historical arithmetic bit for bit, and the original 14 financial cases pass using native imports. A fresh selected-main Python 3.15 run passed those 14 cases in 21.88 seconds; no replay hook is part of production or final verification.</p>
+<p>The <a href="../src/octobot_tentacles/Trading/Exchange/kraken_websocket_feed/kraken_websocket.py">Kraken adapter</a> keeps real native subscriptions and parsers, fixes the SDK's timestamp-field filtering on candle arrays, and distinguishes minute/hour subscription keys and actual received intervals. Spot-price producers retain their declared ticker/trade contract, Kucoin retains its explicit producer override, and Coinbase Pro selects the same venue's current Exchange API client. Owned authentication, web and async resources close on their owning loops.</p>
+<h2 id="reproducible-environment-and-evidence">Reproducible environment and evidence</h2>
+<p>Use the <a href="development.md">development workflow</a> to synchronize the explicit adjacent host source, build its licensed indicators with the supported Homebrew c-ares flags, export this repository's actual 134 plugins and install its archive before testing. The generated <code>tentacles/</code> tree is the runtime export; a newer host plugin archive does not replace this repository's original cases.</p>
+<p><a href="maintenance/verification.json">Portable records</a> · <a href="maintenance/index.md">Readable commands</a> · <a href="ayu-develop.md">Architecture</a>. Earlier migration failures remain below as historical evidence; they do not describe the final runtime or final suite.</p>
+<h2 id="historical-initial-migration-evidence">Historical initial migration evidence</h2>
 <p>Recorded 2026-10-12T02:03:36.528406+08:00. Branch <code>feature/ayu_develop</code>; upstream default <code>upstream/master</code> is merged: <strong>true</strong>. Branch/tag synchronization records are retained in the workspace maintenance evidence. Feature branch publication is coordinated separately.</p>
 <p>Runtime: <strong>CPython 3.14.8</strong>, uv <strong>0.13.0</strong>, build backend <code>hatchling.build</code>. The local OctoBot full environment requires Tulipy, which has no Python 3.15 distribution; Python 3.14.8 is selected.</p>
 <p>Existing suite: <strong>25 failed, 95 passed, 43 errors in 16.46s</strong> (exit <code>1</code>). The archive compiles and builds; exporting and locally installing all 134 tentacles succeeded. Its historical test/helper and plugin APIs are incompatible with the current OctoBot 3 monorepo host. Both raw-source and installed-archive suites were attempted. Successful tests from the newer host plugin archive are not substituted for this repository's tests.</p>
 <p>No test cases were added. Existing assertions and strict warning behavior remain active; repaired fixtures own their loops, sessions, files and configuration paths. Existing upstream platform skips and configured deselections are reported exactly.</p>
-<h2 id="final-build-commands">Final build commands<a class="headerlink" href="#final-build-commands" title="Permanent link">&para;</a></h2>
+<h2 id="final-build-commands">Final build commands</h2>
 <table>
 <thead>
 <tr>
@@ -56,7 +55,7 @@ th,td{min-width:120px;overflow-wrap:normal}
 </tr>
 </tbody>
 </table>
-<h2 id="existing-test-and-compatibility-evidence">Existing test and compatibility evidence<a class="headerlink" href="#existing-test-and-compatibility-evidence" title="Permanent link">&para;</a></h2>
+<h2 id="existing-test-and-compatibility-evidence">Existing test and compatibility evidence</h2>
 <table>
 <thead>
 <tr>
@@ -136,7 +135,7 @@ th,td{min-width:120px;overflow-wrap:normal}
 </tbody>
 </table>
 <p>Raw logs remain in the workspace maintenance evidence directory. The <a href="maintenance/verification.json">portable verification record</a> retains exact command arrays, exits, timing, runtime inventory and log filenames. Earlier failed attempts remain recorded and are not treated as successful final validation.</p>
-<h2 id="installed-dependency-versions">Installed dependency versions<a class="headerlink" href="#installed-dependency-versions" title="Permanent link">&para;</a></h2>
+<h2 id="installed-dependency-versions">Installed dependency versions</h2>
 <p>This is the selected environment after locked synchronization; isolated wheel build dependencies are resolved by the build backend and recorded in build output.</p>
 <table>
 <thead>
