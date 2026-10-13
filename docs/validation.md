@@ -1,5 +1,11 @@
 # OctoBot-Tentacles maintenance validation
 
+<!-- current-documentation-provenance -->
+Documentation reviewed: 2026-10-13 · Git source base: `54b3948ffc13afd2291c5764435887b4257666be` · [Current architecture and feature guide](ayu-develop.md).
+Historical execution commands/results below retain their original dates and scope; this metadata update is not a new application test run.
+<!-- /current-documentation-provenance -->
+
+
 
 Current user-authorized test policy: The user explicitly disabled the AscendEX and Kraken `test_start_spot_websocket` cases with pytest skip markers. Original test bodies, channels and financial assertions remain unchanged. The retained complete-suite baseline is 449 passes and two failures; those two failures are now intentionally skipped, with exact selected-case verification recorded separately.
 
